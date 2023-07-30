@@ -1,0 +1,154 @@
+{% extends 'school/user_app/base.html' %}
+{% block stylesheets %}
+{% block  title %}<title>Paquetes Inscritos</title>{% endblock %}
+<style>
+ 
+  h1 {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 20px;
+  }
+
+  .package {
+    border: 1px solid #ccc;
+    background-color: #fff;
+    padding: 20px;
+    margin-bottom: 20px;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    transition: box-shadow 0.3s ease;
+    cursor: pointer;
+    position: relative;
+  }
+
+  .package:hover {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  }
+
+  .package p {
+    margin-bottom: 10px;
+  }
+
+  .package p:last-child {
+    margin-bottom: 0;
+  }
+
+  /* Estilos adicionales */
+  .package-info {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 10px;
+  }
+
+  .package-info strong {
+    font-weight: bold;
+  }
+
+  .active-status {
+    background-color: green;
+    border-radius: 5px;
+    padding: 3px;
+    color: white;
+  }
+
+  .finished-status {
+    background-color: red;
+    border-radius: 5px;
+    padding: 3px;
+    color: white;
+  }
+
+  /* Estilos para los botones */
+  .button-container {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    margin-top: 10px;
+  }
+
+  .view-sessions-button {
+    padding: 8px 16px;
+    border-radius: 5px;
+    background-color: #428bca;
+    color: white;
+    font-weight: bold;
+    text-decoration: none;
+    transition: background-color 0.3s;
+  }
+
+  .view-sessions-button:hover {
+    background-color: #3276b1;
+  }
+
+  /* Estilos responsive */
+  @media (max-width: 768px) {
+    .package {
+      padding: 15px;
+    }
+
+    .button-container {
+      justify-content: center;
+      margin-top: 20px;
+    }
+  }
+
+  @media (max-width: 600px) {
+    h1 {
+      font-size: 22px;
+    }
+
+    .package {
+      padding: 15px;
+    }
+
+    .button-container {
+      flex-direction: column;
+      margin-top: 20px;
+    }
+
+    .view-sessions-button {
+      width: 100%;
+      margin-bottom: 10px;
+    }
+  }
+
+</style>
+
+
+{% endblock %}
+{% block content %}
+<h1>Lista de Paquetes Inscritos</h1>
+
+{% if enrolled_packages %}
+{% for package in enrolled_packages %}
+<div class="package">
+  <div class="package-info">
+    <p><strong>Estudiante:</strong> {{ package.student }}</p>
+    <p><strong>Fecha de registro:</strong> {{ package.registration_date }}</p>
+    <p><strong>Horas consumidas:</strong> {{ package.consumed_hours }}</p>
+    <p><strong>Horas restantes:</strong> {{ package.remaining_hours }}</p>
+    <p class="{% if package.status %}active-status{% else %}finished-status{% endif %}">
+      <strong>Estado:</strong>
+      {% if package.status %}
+        <span>Activo</span>
+      {% else %}
+        <span>Terminado</span>
+      {% endif %}
+    </p>
+    <p><strong>Tipo de paquete:</strong> {{ package.package_type }}</p>
+  </div>
+  <div class="button-container">
+    <a class="view-sessions-button" href="{% url 'school:session_list' enrolled_package_id=package.id %}"><i class="fas fa-eye"></i>Ver clases</a>
+  </div>
+</div>
+
+{% endfor %}
+
+{% else %}
+    <h4>Sin paquetes Inscritos</h4>
+
+{% endif%}
+
+
+{% endblock %}

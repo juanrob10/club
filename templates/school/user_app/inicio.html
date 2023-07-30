@@ -1,0 +1,273 @@
+{% extends 'school/user_app/base.html' %}
+{% load static %}
+
+{% block title %}<title>Inicio</title>{% endblock %}
+{% block stylesheets %}
+<style>
+  h1 {
+    color: #333333;
+    margin-bottom: 20px;
+    font-size: 36px;
+    font-weight: bold;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+  }
+
+  .director-photo {
+    border-radius: 50%;
+    margin-bottom: 20px;
+    width: 200px;
+    height: 200px;
+    object-fit: cover;
+    object-position: center;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  }
+
+  .welcome-message {
+    color: #666666;
+    line-height: 1.6;
+    margin-bottom: 15px;
+  }
+
+  .button {
+    display: inline-block;
+    background-color: #3366cc;
+    color: #ffffff;
+    padding: 12px 28px;
+    border-radius: 5px;
+    text-decoration: none;
+    transition: background-color 0.3s ease;
+    font-size: 18px;
+    font-weight: bold;
+    box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+  }
+
+  .button:hover {
+    background-color: #235ca3;
+  }
+
+  /* Estilos para el contenido existente */
+  .container {
+    text-align: center;
+  }
+
+  p {
+    text-align: justify;
+  }
+
+  /* Estilos para la ventana modal */
+  .custom-modal {
+    display: none; /* Ocultar la ventana modal por defecto */
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 9999;
+  }
+
+  /* Estilo para mostrar la ventana modal cuando su ID coincide con el hash de la URL */
+  .custom-modal:target {
+    display: block;
+  }
+
+  .custom-modal-dialog {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #ffffff;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+    max-width: 400px; /* Limita el ancho del modal */
+  }
+
+  .custom-modal-title {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 10px;
+  }
+
+  .custom-modal-content {
+    margin-bottom: 20px;
+  }
+
+  .custom-modal-footer {
+    text-align: center;
+  }
+
+  /* Estilo para los campos del formulario */
+  .custom-modal-form label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 5px;
+  }
+
+  .custom-modal-form input[type="text"],
+  .custom-modal-form textarea {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin-bottom: 15px;
+  }
+
+  .custom-modal-form textarea {
+    resize: vertical; /* Permite redimensionar verticalmente el textarea */
+  }
+
+  .custom-modal-form button {
+    display: inline-block;
+    background-color: #3366cc;
+    color: #ffffff;
+    padding: 12px 28px;
+    border-radius: 5px;
+    text-decoration: none;
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+  }
+
+  .custom-modal-form button.submit-btn {
+    background-color: #00cc66;
+  }
+
+  /* Estilos responsive para dispositivos móviles */
+  @media (max-width: 768px) {
+    .custom-modal-dialog {
+      width: 90%; /* Reducir el ancho del modal en dispositivos móviles */
+      max-width: none; /* Eliminar el límite máximo de ancho */
+    }
+  }
+
+  /* Estilo para el enlace de cerrar la ventana modal */
+  .custom-modal .custom-close-modal {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    cursor: pointer;
+    color: #999999;
+    font-size: 24px;
+    text-decoration: none;
+  }
+
+  .custom-modal .custom-close-modal:hover {
+    color: #333333;
+  }
+  #id_phone_0{
+    width: 100%;
+    padding: 5px;
+  }
+
+  #id_email {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin-bottom: 15px;
+  }
+
+  /* Estilos para los mensajes de error en el formulario */
+  .custom-modal-form .errorlist {
+    color: red;
+    font-size: 14px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    margin-top: 5px;
+  }
+
+  .custom-modal-form .errorlist li {
+    margin-bottom: 5px;
+  }
+
+  /* Estilo para resaltar el campo con errores */
+  .custom-modal-form .has-error input[type="text"],
+  .custom-modal-form .has-error textarea {
+    border-color: red;
+  }
+
+  /* Estilos para el botón de enviar con error */
+  .custom-modal-form .has-error button.submit-btn {
+    background-color: red;
+  }
+
+  /* Estilos para el botón de enviar en estado hover con error */
+  .custom-modal-form .has-error button.submit-btn:hover {
+    background-color: darkred;
+  }
+</style>
+{% endblock %}
+
+{% block content %}
+<h1>Bienvenido a la plataforma</h1>
+<img class="director-photo" src="{% static 'img/judith.jpg' %}" alt="Foto de la directora">
+<p class="welcome-message">Hola estudiante! Te damos la más cordial bienvenida a nuestra plataforma educativa. Estamos comprometidos en brindarte una experiencia de aprendizaje enriquecedora y de calidad.</p>
+<p class="welcome-message">Nuestra directora, [Nombre de la Directora], te desea un exitoso camino académico y está disponible para ayudarte en todo lo que necesites.</p>
+<p class="welcome-message">Explora los recursos disponibles y no dudes en contactarnos si tienes alguna pregunta. ¡Disfruta de tu aprendizaje!</p>
+<a href="#customMensajeModal" class="button" id="openModalButton">Enviar Mensaje</a>
+
+<!-- Modal -->
+<div class="custom-modal" id="customMensajeModal">
+  <div class="custom-modal-dialog">
+    <div class="custom-modal-content">
+      <div class="custom-modal-header">
+        <!--<h5 class="custom-modal-title">Formulario de Mensaje</h5>-->
+        <a href="#" class="custom-close-modal" id="custom-close-modal">&times;</a> <!-- Enlace para cerrar la ventana modal -->
+      </div>
+      <div class="custom-modal-body">
+        
+        <form class="custom-modal-form" id="customMensajeForm" method="post">
+          {% csrf_token %}
+      
+          {% for field in form %}
+              <div class="form-field {% if field.errors %} has-error{% endif %}">
+                  <label for="{{ field.id_for_label }}">{{ field.label_tag }}</label>
+                  {{ field }}
+                  {% if field.errors %}
+                      <ul class="errorlist">
+                          {% for error in field.errors %}
+                              <li>{{ error }}</li>
+                          {% endfor %}
+                      </ul>
+                  {% endif %}
+              </div>
+          {% endfor %}
+      
+          {% if form.non_field_errors %}
+              <div class="form-field">
+                  <ul class="errorlist">
+                      {% for error in form.non_field_errors %}
+                          <li>{{ error }}</li>
+                      {% endfor %}
+                  </ul>
+              </div>
+          {% endif %}
+      
+          <button type="submit" class="button submit-btn">Enviar</button>
+      </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const openModalButton = document.getElementById("openModalButton");
+    const closeModalButton = document.getElementById("custom-close-modal");
+    const modal = document.getElementById("customMensajeModal");
+
+    openModalButton.addEventListener("click", function () {
+      modal.style.display = "block";
+    });
+
+    closeModalButton.addEventListener("click", function () {
+      modal.style.display = "none";
+    });
+
+  
+  });
+</script>
+
+{% endblock %}

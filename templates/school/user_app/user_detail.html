@@ -1,0 +1,175 @@
+{% extends 'school/user_app/base.html' %}
+{% load static %}
+
+{% block title %}<title>Página de Perfil</title>{% endblock %}
+
+{% block stylesheets %}
+<style>
+  /* Estilo base para la página */
+  .profile-details {
+    background-color: rgba(255, 255, 255, 0.9);
+    padding: 40px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    max-width: 800px;
+    width: 100%;
+    margin: 0 auto;
+    font-family: 'Helvetica Neue', sans-serif;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    text-align: center; /* Añadimos centrado horizontal */
+  }
+
+  /* Estilos para los encabezados */
+  .profile-details h1 {
+    font-size: 28px;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 20px;
+  }
+
+  /* Estilo para la imagen de perfil */
+  .profile-details img {
+    width: 250px;
+    height: 250px;
+    margin: 0 auto 20px;
+    display: block;
+    border-radius: 50%;
+    border: 5px solid #6666CC;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    object-fit: cover;
+  }
+
+  /* Estilo para las etiquetas y datos de perfil */
+  .input-group {
+    flex-basis: 48%;
+    margin-bottom: 10px;
+    text-align: left; /* Añadimos alineación izquierda */
+  }
+
+  .input-group label {
+    font-weight: bold;
+    font-size: 16px;
+    color: #555;
+  }
+
+  .input-group span {
+    font-size: 16px;
+    font-weight: normal;
+    color: #333;
+    word-break: break-all;
+  }
+
+  /* Estilo de los botones de acción */
+  .btn-group {
+    text-align: center;
+    margin-top: 20px;
+  }
+
+  .btn-group .action-btn {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #6666CC;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+    text-decoration: none;
+    margin-right: 10px;
+  }
+
+  .btn-group .action-btn:hover {
+    background-color: #0f3786;
+  }
+
+  /* Estilos responsivos */
+  @media (max-width: 768px) {
+    .profile-details {
+      padding: 20px;
+    }
+
+    .profile-details h1 {
+      font-size: 24px;
+      margin-bottom: 10px;
+    }
+
+    .profile-details img {
+      width: 180px;
+      height: 180px;
+    }
+
+    .input-group label {
+      font-size: 14px;
+    }
+
+    .input-group span {
+      font-size: 14px;
+    }
+
+    .btn-group .action-btn {
+      padding: 8px 16px;
+      font-size: 14px;
+    }
+  }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="profile-details">
+  <div style="flex-basis: 100%;"> <!-- Agregamos un div para centrar imagen y título -->
+    {% if student %}
+      <img src="{{ student.picture.url }}" alt="Foto de perfil">
+    {% endif %}
+    <h1><i class="fas fa-user"></i> Página de Perfil</h1>
+  </div>
+  <div class="input-group">
+    <label for="username"><i class="fas fa-user"></i> Nombre de usuario:</label>
+    <span>{{ customer_user.username }}</span>
+  </div>
+  <div class="input-group">
+    <label for="phone"><i class="fas fa-envelope"></i> Correo electrónico:</label>
+    <span>{{ customer_user.email }}</span>
+  </div>
+  <div class="input-group">
+    <label for="address"><i class="fas fa-user"></i> Primer nombre:</label>
+    <span>{{ customer_user.first_name }}</span>
+  </div>
+  <div class="input-group">
+    <label for="city"><i class="fas fa-user"></i> Apellido:</label>
+    <span>{{ customer_user.last_name }}</span>
+  </div>
+  <div class="input-group">
+    <label for="city"><i class="fas fa-calendar-alt"></i> Fecha de inicio:</label>
+    <span>{{ customer_user.date_joined }}</span>
+  </div>
+  {% if student %}
+    <div class="input-group">
+      <label for="date-birth"><i class="fas fa-calendar-alt"></i> Fecha de nacimiento:</label>
+      <span>{{ student.date_birth }}</span>
+    </div>
+    <div class="input-group">
+      <label for="tutor-name"><i class="fas fa-user"></i> Nombre del Tutor:</label>
+      <span>{{ student.tutor_name }}</span>
+    </div>
+    <div class="input-group">
+      <label for="tutor-number"><i class="fas fa-phone"></i> Número del Tutor:</label>
+      <span>{{ student.tutor_number }}</span>
+    </div>
+  {% endif %}
+  {% if teacher %}
+    <div class="input-group">
+      <label for="contact-number"><i class="fas fa-phone"></i> Número de contacto:</label>
+      <span>{{ teacher.contact_number }}</span>
+    </div>
+  {% endif %}
+</div>
+<div class="btn-group">
+  <a href="{% url 'school:user_update' %}" class="action-btn"><i class="fas fa-edit"></i> Actualizar</a>
+</div>
+{% endblock %}
+  
+
+
+

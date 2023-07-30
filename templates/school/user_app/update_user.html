@@ -1,0 +1,193 @@
+{% extends 'school/user_app/base.html' %}
+
+{% block  title %}<title>Edición Perfil</title>{% endblock %}
+{% block stylesheets %}
+
+  <style>
+    /* Estilos generales del formulario */
+    form {
+      max-width: 500px;
+      margin: 0 auto;
+      padding: 20px;
+      background-color: #f5f5f5;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      font-family: Arial, sans-serif;
+    }
+    /* Estilos para los campos de entrada */
+    label {
+      display: block;
+      margin-bottom: 5px;
+      font-weight: bold;
+    }
+    input[type="text"],
+    input[type="email"],
+    input[type="date"],
+    input[type="tel"],
+    textarea {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      box-sizing: border-box;
+      margin-bottom: 10px;
+      font-size: 14px;
+    }
+    #id_tutor_number_0 {
+      width: 100%;
+      padding: 7px;
+    }
+    /* Estilos para los mensajes de error */
+    .errorlist {
+      color: red;
+      margin: 0;
+      padding: 0;
+      list-style-type: none;
+    }
+    .errorlist li {
+      margin-bottom: 5px;
+    }
+    /* Estilos para el botón de guardar */
+    button[type="submit"] {
+      background-color: #6666CC;
+      color: white;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 16px;
+      margin-top: 10px;
+    }
+    button[type="submit"]:hover {
+      background-color: #131370;
+    }
+
+    .container {
+      margin-top: 0;
+    }
+  </style>
+
+  {% endblock %}
+ {%block content %}
+ <form method="post" enctype="multipart/form-data">
+  {% csrf_token %}
+  
+  <!-- Campos del formulario de CustomerUser -->
+  <label for="{{ form.username.id_for_label }}"><i class="fas fa-user"></i> Username:</label>
+  {{ form.username }}
+  {% if form.username.errors %}
+    <ul class="errorlist">
+      {% for error in form.username.errors %}
+        <li>{{ error }}</li>
+      {% endfor %}
+    </ul>
+  {% endif %}
+
+  <label for="{{ form.email.id_for_label }}"><i class="fas fa-envelope"></i> Email:</label>
+  {{ form.email }}
+  {% if form.email.errors %}
+    <ul class="errorlist">
+      {% for error in form.email.errors %}
+        <li>{{ error }}</li>
+      {% endfor %}
+    </ul>
+  {% endif %}
+
+  <label for="{{ form.first_name.id_for_label }}"><i class="fas fa-user"></i> First Name:</label>
+  {{ form.first_name }}
+  {% if form.first_name.errors %}
+    <ul class="errorlist">
+      {% for error in form.first_name.errors %}
+        <li>{{ error }}</li>
+      {% endfor %}
+    </ul>
+  {% endif %}
+
+  <label for="{{ form.last_name.id_for_label }}"><i class="fas fa-user"></i> Last Name:</label>
+  {{ form.last_name }}
+  {% if form.last_name.errors %}
+    <ul class="errorlist">
+      {% for error in form.last_name.errors %}
+        <li>{{ error }}</li>
+      {% endfor %}
+    </ul>
+  {% endif %}
+
+  <label for="{{ form.date_joined.id_for_label }}"><i class="fas fa-calendar-alt"></i> Date Joined:</label>
+  {{ form.date_joined }}
+  {% if form.date_joined.errors %}
+    <ul class="errorlist">
+      {% for error in form.date_joined.errors %}
+        <li>{{ error }}</li>
+      {% endfor %}
+    </ul>
+  {% endif %}
+
+  <!-- Campos adicionales para Student o Teacher -->
+  {% if customer_user.user_type == 1 %}
+    <label for="{{ form.picture.id_for_label }}"><i class="fas fa-image"></i> Picture:</label>
+    {{ form.picture }}
+    {% if form.picture.errors %}
+      <ul class="errorlist">
+        {% for error in form.picture.errors %}
+          <li>{{ error }}</li>
+        {% endfor %}
+      </ul>
+    {% endif %}
+
+    <label for="{{ form.date_birth.id_for_label }}"><i class="fas fa-birthday-cake"></i> Date of Birth:</label>
+    {{ form.date_birth }}
+    {% if form.date_birth.errors %}
+      <ul class="errorlist">
+        {% for error in form.date_birth.errors %}
+          <li>{{ error }}</li>
+        {% endfor %}
+      </ul>
+    {% endif %}
+
+    <label for="{{ form.tutor_name.id_for_label }}"><i class="fas fa-user"></i> Tutor Name:</label>
+    {{ form.tutor_name }}
+    {% if form.tutor_name.errors %}
+      <ul class="errorlist">
+        {% for error in form.tutor_name.errors %}
+          <li>{{ error }}</li>
+        {% endfor %}
+      </ul>
+    {% endif %}
+
+    <label for="{{ form.tutor_number.id_for_label }}"><i class="fas fa-phone"></i> Tutor Number:</label>
+    {{ form.tutor_number }}
+    {% if form.tutor_number.errors %}
+      <ul class="errorlist">
+        {% for error in form.tutor_number.errors %}
+          <li>{{ error }}</li>
+        {% endfor %}
+      </ul>
+    {% endif %}
+
+  {% elif customer_user.user_type == 2 %}
+    <label for="{{ form.contact_number.id_for_label }}"><i class="fas fa-phone"></i> Contact Number:</label>
+    {{ form.contact_number }}
+    {% if form.contact_number.errors %}
+      <ul class="errorlist">
+        {% for error in form.contact_number.errors %}
+          <li>{{ error }}</li>
+        {% endfor %}
+      </ul>
+    {% endif %}
+  {% endif %}
+
+  {% if form.non_field_errors %}
+    <ul class="errorlist">
+      {% for error in form.non_field_errors %}
+        <li>{{ error }}</li>
+      {% endfor %}
+    </ul>
+  {% endif %}
+  <br>
+  <button type="submit"><i  style="padding-right:5px;" class="fas fa-save"></i>Guardar</button>
+</form>
+
+
+ {% endblock %}
+ 

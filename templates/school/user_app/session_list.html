@@ -1,0 +1,229 @@
+{% extends 'school/user_app/base.html' %}
+{% block  title %}<title>Sesiones</title>{% endblock %}
+{% block stylesheets %}
+<style>
+  /* Estilos generales */
+  h1 {
+    color: #333;
+    font-size: 24px;
+    margin-bottom: 20px;
+  }
+
+  .table-container {
+    width: 100%;
+    max-width: 800px;
+    margin: 70px auto;
+    overflow-x: auto;
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    table-layout: fixed;
+  }
+
+  th,
+  td {
+    padding: 10px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  th {
+    background-color: #f2f2f2;
+    font-weight: bold;
+  }
+
+  .empty-message {
+    color: #999;
+    font-style: italic;
+  }
+
+  a {
+    text-decoration: none;
+  }
+
+  button {
+    display: inline-block;
+    padding: 10px;
+    border-radius: 5px;
+    margin-top: 10px;
+    background-color: #428bca;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    text-decoration: none;
+  }
+
+  button:hover {
+    background-color: #3276b1;
+  }
+
+  /* Estilos de encabezado */
+  .sticky-header {
+    position: sticky;
+    top: 0;
+    z-index: 1;
+    background-color: #f2f2f2;
+  }
+
+  /* Estilos de celdas */
+  .highlight-cell {
+    background-color: #eaf6ff;
+  }
+
+  /* Estilos adicionales */
+  .table-container {
+    padding: 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    border-radius: 5px;
+    background-color: #fff;
+  }
+
+  table {
+    margin-bottom: 20px;
+  }
+
+  th,
+  td {
+    font-size: 14px;
+    color: #333;
+  }
+
+  th {
+    padding-top: 12px;
+    padding-bottom: 12px;
+  }
+
+  td {
+    padding-top: 8px;
+    padding-bottom: 8px;
+  }
+
+  .empty-message {
+    padding-top: 10px;
+    padding-bottom: 10px;
+    text-align: center;
+  }
+
+  /* Estilos responsive */
+  @media (max-width: 768px) {
+    .table-container {
+      margin: 50px auto;
+    }
+
+    table {
+      font-size: 14px;
+    }
+
+    th,
+    td {
+      white-space: initial;
+      overflow: initial;
+      text-overflow: initial;
+    }
+
+    /* Ajustes para dispositivos móviles */
+    th,
+    td {
+      display: block;
+      width: 100%;
+    }
+
+    tbody tr {
+      display: block;
+      margin-bottom: 20px;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+    }
+
+    tbody td {
+      text-align: left;
+    }
+
+    tbody td:before {
+      content: attr(data-label);
+      display: block;
+      font-weight: bold;
+      margin-bottom: 5px;
+    }
+
+    /* Ocultar encabezado en dispositivos móviles */
+    thead {
+      display: none;
+    }
+  }
+
+  /* Estilos para las etiquetas (badges) de materias */
+  .badge {
+    display: inline-block;
+    padding: 0.25em 0.4em;
+    font-size: 75%;
+    font-weight: 700;
+    line-height: 1;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: baseline;
+    border-radius: 0.25rem;
+  }
+
+  .badge-primary {
+    color: #fff;
+    background-color: #007bff;
+  }
+
+</style>
+{% endblock %}
+
+{% block content%} 
+
+<div class="table-container">
+  <h1>Sesiones del Paquete Inscrito: {{ enrolled_package }}</h1>
+
+  <div style="overflow-x:auto;">
+    <table>
+      <thead>
+        <tr>
+          <th>Profesor</th>
+          <th>Materias</th>
+          <th>Hora de inicio</th>
+          <th>Hora de Finalizacion</th>
+          <th>Duracion</th>
+          <th>Observaciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for session in sessions %}
+        <tr>
+          <td data-label="Profesor">{{ session.teacher }}</td>
+          <td data-label="Materias">
+            {% for subject in session.subjects.all %}
+            {{ subject.get_html_badge}}
+            {% endfor %}
+          </td>
+          <td data-label="Hora de inicio">{{ session.start_time|time  }} hrs</td>
+          <td data-label="Hora de Finalizacion">{{ session.end_time|time  }} hrs</td>
+          <td data-label="Duracion">{{ session.session_duration }} hrs</td>
+          <td data-label="Observaciones">{{ session.observations }}</td>
+        </tr>
+        {% empty %}
+        <tr>
+          <td colspan="6" class="empty-message">No hay sesiones</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  
+  <button>
+    <a href="{% url 'school:enrolled_package_list' student_pk=request.user.student.pk %}" style="color: #fff; text-decoration: none;">
+      <i class="fas fa-arrow-left" style="margin-right: 5px;"></i>Regresar
+    </a>
+  </button>
+</div>
+
+{% endblock %}

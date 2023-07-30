@@ -1,0 +1,621 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  {% block  title %}{% endblock %}
+  <title>Página de Perfil</title>
+  
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: "Roboto", Arial, sans-serif;
+      background-image: linear-gradient(to bottom, #f4f4f4, #ddd);
+    }
+
+    .navbar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%; 
+      background-color: #6666CC;
+      color: #fff;
+      padding: 10px;
+      z-index: 9999;
+      transition: height  0.3  ease-in-out;
+    }
+
+
+    .navbar ul {
+      list-style: none;
+      display: flex;
+      justify-content: center;
+    }
+
+    .navbar li {
+      margin: 0 10px;
+      padding-top: 8px;
+     
+    }
+
+
+    .navbar a {
+      text-decoration: none;
+      color: #fff;
+      font-weight: bold;
+      transition: color 0.3s ease;
+
+    }
+    /* Estilos adicionales */
+   
+    .navbar a:hover {
+      color: black;
+    }
+
+    .menu-toggle {
+      display: none;
+    }
+
+
+    #messages{
+      list-style: none;
+      position: absolute; 
+      top: 50px;
+      left: 50%;
+      opacity: 1;
+      transition: opacity 0.5s;
+      transform: translateX(-50%);
+    }
+
+    #messages.fade-out {
+      opacity: 0;
+    }
+
+    #messages li {
+      padding: 10px;
+      margin-bottom: 5px;
+    }
+
+    #messages li.success {
+      background-color: #dff0d8;
+      color: #3c763d;
+    }
+
+    #messages li.info {
+      background-color: #d9edf7;
+      color: #31708f;
+    }
+
+    #messages li.warning  {
+      background-color: #fcf8e3;
+      color: #8a6d3b;
+    }
+
+    #messages li.error  {
+      background-color: #f2dede;
+      color: #a94442;
+    }
+
+    #container {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 20px;
+      margin-top: 70px;
+      min-height: 100vh;
+      opacity: 0;
+      transition:  opacity 0.6s ease-out;
+    }
+
+    #container.mostrado {
+      opacity: 1;
+    }
+      /* Estilos adicionales */
+      .container::before {
+      content: "";
+      display: block;
+      width: 100%;
+      height: 100%;
+      position: fixed;
+      top: 0;
+      left: 0;
+   
+      z-index: -1;
+    }
+  
+    /* Estilo del enlace de perfil activo */
+    .navbar li.active a {
+      color:  black;
+      /*border-bottom: 2px solid black;*/
+    }
+
+    a i {
+        padding: 2px;
+    }
+
+    .footer {
+      background-color: #5454c5;
+        color: #fff;
+        padding: 15px;
+        font-family: Arial, sans-serif;
+        width: 100%;
+}
+
+.footer-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  padding: 0 20px;
+}
+
+.footer-logo {
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.footer-links {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+}
+
+.footer-links li {
+  margin-right: 10px;
+}
+
+.footer-links li:last-child {
+  margin-right: 0;
+}
+
+.footer-links li a {
+  color: #fff;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.footer-links li a:hover {
+  color: #ccc;
+}
+
+.footer-bottom {
+  margin-top: 10px;
+  text-align: center;
+}
+
+.footer-bottom p {
+  margin: 0;
+  font-size: 12px;
+}
+
+
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.4);
+    z-index: 10000;
+
+}
+
+.modal.fade-in {
+        display: block;
+       
+}
+
+.modal-content {
+    position: absolute ;
+    top:50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    background-color: #fefefe;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+    max-width: 400px;
+    opacity: 0;
+    transition: opacity 0.3s ease, transform 0.3 ease;
+}
+
+.modal.fade-in .modal-content {
+    opacity: 1;  
+}
+
+.close {
+    color: #aaa;
+    float: right;
+    font-size: 24px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.close:hover,
+.close:focus {
+    color: #000;
+    text-decoration: none;
+}
+
+.modal p {
+    margin: 0;
+    padding-bottom: 10px;
+}
+
+.modalButton{
+  
+    padding: 8px 16px;
+    border: none;
+    border-radius: 4px;
+    background-color: #428bca;
+    color: #fff;
+    font-size: 14px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin-bottom: 5px;
+  
+}
+
+.modalButton:hover {
+    background-color: #3071a9;
+}
+
+.modalButton.cancel {
+    background-color: #aaa;
+}
+
+.modalButton.cancel:hover {
+    background-color: #999;
+}
+  /* Estilos adicionales */
+    /* ... */
+
+    @media (max-width: 768px) {
+      .navbar ul {
+        display: none; /* Oculta el menú en dispositivos móviles */
+
+      }
+
+      .navbar.active ul {
+        display: flex; /* Muestra el menú cuando se activa */
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .navbar .menu-toggle {
+        display: block;
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        color: #fff;
+        font-size: 24px;
+        cursor: pointer;
+        z-index: 9999;
+      }
+
+      .navbar.active .menu-toggle i {
+        color: #000;
+      }
+    }
+
+
+
+
+  /*ACORDEON*/
+  .acordeon {
+    position: relative;
+    display: flex;
+    flex-direction: row;
+  
+    align-items: center;
+    margin-left: 5px;
+
+  }
+
+  .acordeon  .nombre-usuario {
+    cursor: pointer;
+    height: 50%;
+  }
+
+  .acordeon  .profile_picture{
+    border-radius: 50%;
+    width: 35px;
+    height: 35px;
+    margin-left: 5px;
+  }
+
+  .acordeon  .profile_picture img {
+    border-radius: 50%;
+    width: 100%;
+    height: 100%;
+    border: 2px solid black;
+  }
+
+  .acordeon-contenido {
+    display: none;
+    position: absolute;
+    top:100%;
+    left:0;
+    background-color: #ffffff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+    padding: 10px;
+    border-radius: 5px;
+    z-index: 1;
+    min-width: 220px;
+  }
+
+  .acordeon-contenido ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    text-align:left;
+  }
+
+  .acordeon-contenido li {
+    margin-bottom: 5px;
+  }
+
+  .acordeon-contenido a {
+    text-decoration: none;
+    color: #333333;
+  }
+
+  .acordeon-contenido a:hover {
+    color: #235ca3;
+  }
+
+    /* Estilo para el acordeón en filas */
+    .acordeon-contenido ul {
+    display: flex;
+    flex-direction: column;
+  }
+
+ 
+
+    @media(max-width: 480px) {
+      .container {
+        margin-top: 30px;
+        padding: 0 10px;
+      } 
+
+      .acordeon-contenido  {
+        left: 50%;
+        transform: translateX(-50%);
+      }
+
+      .modalButton {
+        width: 100%;
+      }
+
+    }
+
+    @media (max-width: 768px) {
+
+      .navbar {
+        min-height: 50px;    
+      }
+      
+            .navbar ul {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .navbar li {
+                margin: 10px 0;
+            }
+
+            .footer-content {
+              flex-direction: column;
+              align-items: flex-start;
+  }
+  
+            .footer-links {
+              margin-top: 10px;
+            }
+        }
+
+
+        
+
+  </style>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
+  {% block stylesheets %}{% endblock %}
+</head>
+
+<body>
+  <div class="navbar">
+    <span class="menu-toggle" onclick="toggleMenu()">
+      <i class="fas fa-bars"></i>
+    </span>
+    <ul>
+        {% if request.path == "/user/inicio/" %}
+                     <li class="active"><a href="{% url 'school:inicio' %}"><i class="fas fa-home"></i>Inicio</a></li>
+                     {% else %}
+                     <li>
+                        <a href="{% url 'school:inicio' %}"><i  class="fas fa-home"></i>Inicio</a>
+                    </li>
+        {% endif %}
+    
+      {% if request.path == "/user/detail/" %}
+      <li class="active"><a href="{% url 'school:user_detail' %}"><i class="fas fa-user"></i>Perfil</a></li>
+            {% else %}
+      <li><a href="{% url 'school:user_detail' %}"><i class="fas fa-user"></i>Perfil</a></li>
+      {% endif %}
+
+
+      {% if request.user.student %}
+          {% if "/enrolled-packages/"  in request.path  %}
+          
+          <li class="active">
+            <a href="{% url 'school:enrolled_package_list' student_pk=request.user.student.pk %}"><i class="fas fa-list"></i>Paquetes</a>
+          </li>
+
+          {% else %}
+          
+          <li>
+            <a href="{% url 'school:enrolled_package_list' student_pk=request.user.student.pk %}"><i class="fas fa-list"></i> Paquetes</a>
+          </li>
+
+          {% endif %}
+      
+      {% endif %}
+    
+      <!-- Acordeón -->
+<div class="acordeon">
+  <div class="nombre-usuario">{{ request.user.username|upper}}</div>
+  
+  {% if request.user.student %}
+  <div class="profile_picture">
+    <img   src="{{ request.user.student.picture.url }}" alt="" srcset="">
+  </div>
+
+   {% else %}
+   <div class="profile_picture">
+    <img   src="{% static 'img/no_image.jpg' %}" alt="" srcset="">
+  </div>
+  {% endif %}
+
+  <div class="acordeon-contenido">
+    <ul>
+      {% if request.path == "/user/change_password/" %}
+        <li class="active"><a href="{% url 'school:change_password' %}"><i class="fas fa-key"></i> Cambiar contraseña</a></li>
+      {% else %}
+        <li><a href="{% url 'school:change_password' %}"><i class="fas fa-key"></i> Cambiar contraseña</a></li>
+      {% endif %}
+      <li><a href="#" onclick="mostrarModal()"><i class="fas fa-sign-out-alt"></i> Cerrar sesión</a></li>
+    </ul>
+  </div>
+</div>
+  
+
+    </ul>
+  </div>
+  {% if messages %}
+  <ul id="messages"class="messages">
+      {% for message in messages %}
+          <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+      {% endfor %}
+  </ul>
+{% endif %}
+  <div class="container"  id="container">
+    {% block content %}
+    {% endblock %}
+  </div>
+  <div id="confirmModal" class="modal">
+    <div class="modal-content">
+        <span class="close" onclick="cerrarModal()">&times;</span>
+        <p>¿Estás seguro de que deseas cerrar sesión?</p>
+        <div>
+            <button class="modalButton" ><a  style="text-decoration: none;color: white;"href="{% url 'school:logout' %}"> Sí</a>
+             </button>
+            <button class="modalButton" onclick="cerrarModal()">Cancelar</button>
+        </div>
+    </div>
+</div>
+  <footer class="footer">
+  
+      <div class="footer-content">
+        <p>&copy; 2023 Mi Sitio Web. Todos los derechos reservados.</p>
+        <ul class="footer-links">
+          <li><a href="#">Inicio</a></li>
+          <li><a href="#">Acerca de</a></li>
+          <li><a href="#">Servicios</a></li>
+          <li><a href="#">Contacto</a></li>
+        </ul>
+      </div>
+
+  </footer>
+
+  <script>
+
+function toggleMenu() {
+      var navbar = document.querySelector(".navbar");
+      navbar.classList.toggle("active");
+    }
+
+              function mostrarModal() {
+                    var modal = document.getElementById("confirmModal");
+                    modal.classList.add("fade-in");
+                }
+
+                function cerrarModal() {
+                    var modal = document.getElementById("confirmModal");
+                    modal.classList.remove("fade-in");
+                }
+     
+
+   
+
+        // Evento que desencadena la animación cuando el elemento se muestra en la vista
+        window.addEventListener("DOMContentLoaded", function() {
+
+
+                function mostrarContainer(elemento) {
+                    elemento.classList.add("mostrado");
+                }
+
+              function desaperecerMessages(messages){  
+                    setTimeout(function() {
+                      messages.classList.add('fade-out');
+                    }, 5000); 
+              }
+        
+          var container = document.getElementById("container");
+          var messages = document.getElementById('messages');
+
+          if(messages) {
+            messages.addEventListener("transitionend", function() {
+            if (messages.classList.contains("fade-out")) {
+              messages.remove();
+            }
+          });
+          }
+      
+          var containerPosicion = container.getBoundingClientRect();
+          var ventanaAltura = window.innerHeight;
+
+          // Si el elemento está en la vista, se muestra
+          if (containerPosicion.top < ventanaAltura) {
+            mostrarContainer(container);
+            if(messages){
+              desaperecerMessages(messages)  
+            }
+          }
+
+
+
+          var nombreUsuario = document.querySelector(".nombre-usuario");
+    var acordeonContenido = document.querySelector(".acordeon-contenido");
+
+    // Ocultar todos los contenidos del acordeón excepto el primero
+    acordeonContenido.style.display = "none";
+    nombreUsuario.addEventListener("click", function() {
+      if (acordeonContenido.style.display === "none") {
+        acordeonContenido.style.display = "block";
+      } else {
+        acordeonContenido.style.display = "none";
+      }
+    });
+
+
+
+
+
+        });
+
+  </script>
+</body>
+</html>
+

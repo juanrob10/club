@@ -1,0 +1,200 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Página de inicio de sesión</title>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+   <style>
+
+    *{
+      padding: 0;
+      margin: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: "Roboto", Arial, sans-serif;
+      background-image: url("{% static 'fondo.jpg' %}");
+      background-size: cover;
+      background-position: center;
+    }
+  
+  
+    .container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+
+
+      opacity: 0;
+      transition: opacity 0.5s ease-in-out;
+    }
+  
+    .login-form {
+      background-color: rgba(255, 255, 255, 0.9);
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+      max-width: 400px;
+      width: 100%;
+    }
+  
+    .error-message {
+      font-size: 14px;
+      width: 100%;
+      background-color: #f44336;
+      color: #fff;
+      margin-bottom: 5px;
+      border: none;
+      border-radius: 5px;
+      font-weight: bold;
+    }
+
+
+  
+  
+    h1 {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+  
+    .input-group {
+      margin-bottom: 15px;
+    }
+  
+    label {
+      display: block;
+      margin-bottom: 5px;
+    }
+  
+    input[type="text"],
+    input[type="password"] {
+      width: 100%;
+      padding: 12px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+      transition: border-color 0.3s ease;
+    }
+  
+    input[type="text"]:focus,
+    input[type="password"]:focus {
+      border-color: #6666CC;
+    }
+  
+    button {
+      font-family: "Roboto", Arial, sans-serif;
+      width: 100%;
+      padding: 12px;
+      background-color: #6666CC;
+      color: #fff;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-weight: bold;
+      transition: background-color 0.3s ease;
+    }
+  
+    button:hover {
+      background-color: #45a049;
+    }
+  
+    .mostrado {
+      opacity: 1;
+    }
+  
+    /* Estilos para pantallas de hasta 600px */
+    @media (max-width: 600px) {
+      .container {
+        padding: 20px;
+      }
+      
+      .login-form {
+        max-width: none;
+      }
+      
+      input[type="text"],
+      input[type="password"],
+      button {
+        padding: 10px;
+      }
+    }
+  
+    /* Estilos para pantallas de hasta 400px */
+    @media (max-width: 400px) {
+      h1 {
+        font-size: 24px;
+      }
+      
+      input[type="text"],
+      input[type="password"] {
+        font-size: 14px;
+      }
+      
+      button {
+        font-size: 14px;
+      }
+    }
+   </style>
+</head>
+<body>
+  <div class="container" id="miElemento">
+    <form class="login-form" method="post">
+      {% csrf_token %}
+      <h1>Iniciar sesión</h1>
+      <div class="input-group">
+        {{ form.username.label_tag }}
+        {{ form.username }}
+        {% if form.username.errors %}
+          <ul class="errorlist">
+            {% for error in form.username.errors %}
+            <li class="error-message ">{{ error }}</li>
+            {% endfor %}
+          </ul>
+        {% endif %}
+      </div>
+      <div class="input-group">
+        {{ form.password.label_tag }}
+        {{ form.password }}
+        {% if form.password.errors %}
+          <ul class="errorlist">
+            {% for error in form.password.errors %}
+              <li class="error-message ">{{ error }}</li>
+            {% endfor %}
+          </ul>
+        {% endif %}
+      </div>
+      {% if form.non_field_errors %}
+      <ul class="errorlist">
+        {% for error in form.non_field_errors %}
+          <li class="error-message">{{ error }}</li>
+        {% endfor %}
+       </ul>
+     {% endif %}
+  
+      <button type="submit">Ingresar</button>
+    </form>
+  </div>
+
+  <script>
+    var elemento = document.getElementById("miElemento");
+
+    function mostrarElemento() {
+      elemento.classList.add("mostrado");
+    }
+
+    // Evento que desencadena la animación cuando el elemento se muestra en la vista
+    window.addEventListener("DOMContentLoaded", function() {
+      var elementoPosicion = elemento.getBoundingClientRect();
+      var ventanaAltura = window.innerHeight;
+
+      // Si el elemento está en la vista, se muestra
+      if (elementoPosicion.top < ventanaAltura) {
+        mostrarElemento();
+      }
+    });
+  </script>
+</body>
+</html>
