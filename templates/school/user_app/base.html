@@ -489,10 +489,16 @@
 
   <div class="acordeon-contenido">
     <ul>
+      <li><a href="/"><i class="fas fa-globe"></i> Club</a></li>  
       {% if request.path == "/user/change_password/" %}
         <li class="active"><a href="{% url 'school:change_password' %}"><i class="fas fa-key"></i> Cambiar contraseña</a></li>
       {% else %}
         <li><a href="{% url 'school:change_password' %}"><i class="fas fa-key"></i> Cambiar contraseña</a></li>
+      {% endif %}
+
+    
+      {% if request.user.is_superuser %}  
+              <li><a href="/admin/"><i class="fas fa-screwdriver"></i> Admin</a></li>        
       {% endif %}
       <li><a href="#" onclick="mostrarModal()"><i class="fas fa-sign-out-alt"></i> Cerrar sesión</a></li>
     </ul>
