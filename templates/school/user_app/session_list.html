@@ -193,7 +193,6 @@
           <th>Hora de inicio</th>
           <th>Hora de Finalizacion</th>
           <th>Duracion</th>
-          <th>Observaciones</th>
         </tr>
       </thead>
       <tbody>
@@ -208,8 +207,6 @@
           <td data-label="Hora de inicio">{{ session.start_time|time  }} hrs</td>
           <td data-label="Hora de Finalizacion">{{ session.end_time|time  }} hrs</td>
           <td data-label="Duracion">{{ session.session_duration }} hrs</td>
-          <td data-label="Observaciones">{{ session.observations }}</td>
-        </tr>
         {% empty %}
         <tr>
           <td colspan="6" class="empty-message">No hay sesiones</td>

@@ -1,7 +1,7 @@
 from django import forms
 from .models import Student,Teacher,CustomUser
 from django.core.exceptions import ValidationError
-from .USER_TYPES import STUDENT,TEACHER,SUPERVISOR
+from .USER_TYPES import STUDENT,TEACHER
 from django.contrib.auth.forms import ReadOnlyPasswordHashField
 from django.utils.translation import gettext_lazy as _
 from django.db import transaction

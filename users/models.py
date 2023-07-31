@@ -6,7 +6,7 @@ from django.db import models
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 from PIL import Image
-from .USER_TYPES import USER_TYPE_CHOICES,SUPERVISOR,STUDENT
+from .USER_TYPES import USER_TYPE_CHOICES,STUDENT,TEACHER
 from phonenumber_field.modelfields import PhoneNumberField
 from django.core.exceptions import ValidationError
 from django.conf import settings
@@ -41,6 +41,8 @@ class CustomUserManager(BaseUserManager):
         """
         Create and save a SuperUser with the given email and password.
         """
+  
+        extra_fields.setdefault("user_type", TEACHER)
         extra_fields.setdefault("is_staff", True)
         extra_fields.setdefault("is_superuser", True)
         extra_fields.setdefault("is_active", True)

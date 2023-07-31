@@ -111,7 +111,7 @@ class Session(models.Model):
     start_time = models.DateTimeField(verbose_name=_("start time"),null=False, blank=False)
     end_time = models.DateTimeField(null=True,verbose_name=_("end time"), blank=True)
     session_duration = models.DurationField(_("session duration"), null=True, blank=True)
-    observations = models.TextField(_("observations"), blank=True)
+  
 
     class Meta:
         verbose_name = _("Session")

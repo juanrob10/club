@@ -5,7 +5,7 @@ from school.models import  EnrolledPackage
 from .forms import StudentForm,TeacherForm,CustomUserChangeForm,CustomUserCreationForm
 from django.utils.html import escape, mark_safe
 
-from .USER_TYPES import STUDENT,TEACHER,SUPERVISOR
+from .USER_TYPES import STUDENT,TEACHER
 from PIL import Image
 
 
