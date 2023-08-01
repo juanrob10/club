@@ -26,8 +26,11 @@ class CustomPasswordChangeForm(PasswordChangeForm):
 
 
 class MessageCreationForm(forms.ModelForm):
-    phone = PhoneNumberField(widget=PhoneNumberPrefixWidget(),required=False)
-
+    phone = PhoneNumberField(widget=PhoneNumberPrefixWidget(),required=False,label='Teléfono')
+    message = forms.CharField(
+        widget=forms.Textarea(attrs={'placeholder': 'Mensaje'}),
+        label='Mensaje'  # Etiqueta del campo
+    )
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -41,8 +44,7 @@ class MessageCreationForm(forms.ModelForm):
         widgets = {
                 'name': forms.TextInput(attrs={'placeholder': 'Nombre'}),
                 'email': forms.EmailInput(attrs={'placeholder': 'Correo Electrónico'}),
-                'concern': forms.TextInput(attrs={'placeholder': 'Asunto'}),
-                'message': forms.Textarea(attrs={'placeholder': 'Mensaje'}),
+                'concern': forms.TextInput(attrs={'placeholder': 'Asunto'})
             }
 
 
@@ -63,12 +65,12 @@ class CustomerUserForm(forms.ModelForm):
     
         if instance:
             if hasattr(instance, 'student'):
-                self.fields['picture'] = forms.ImageField(required=True)
-                self.fields['date_birth'] = forms.DateField(required=False,widget=forms.DateInput(attrs={'type': 'date', 'format': '%Y-%m-%d'}))
-                self.fields['tutor_name'] = forms.CharField(max_length=100, required=False)
-                self.fields['tutor_number'] = PhoneNumberField(widget=PhoneNumberPrefixWidget(),required=False)
+                self.fields['picture'] = forms.ImageField(required=True,label="Imagen")
+                self.fields['date_birth'] = forms.DateField(required=False,widget=forms.DateInput(attrs={'type': 'date', 'format': '%Y-%m-%d'}),label="Fecha de nacimiento")
+                self.fields['tutor_name'] = forms.CharField(max_length=100, required=False,label="Nombre del Tutor")
+                self.fields['tutor_number'] = PhoneNumberField(widget=PhoneNumberPrefixWidget(),required=False,label="Número del Tutor")
             elif hasattr(instance, 'teacher'):
-                self.fields['contact_number'] = PhoneNumberField(widget=PhoneNumberPrefixWidget(),required=False)
+                self.fields['contact_number'] = PhoneNumberField(widget=PhoneNumberPrefixWidget(),required=False,label="Número de Contacto")
 
 
     def save(self, commit=True):

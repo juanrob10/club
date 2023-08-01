@@ -83,7 +83,7 @@
     </ul>
   {% endif %}
 
-  <label for="{{ form.email.id_for_label }}"><i class="fas fa-envelope"></i> Email:</label>
+  <label for="{{ form.email.id_for_label }}"><i class="fas fa-envelope"></i> {{form.email.label_tag }}</label>
   {{ form.email }}
   {% if form.email.errors %}
     <ul class="errorlist">
@@ -93,7 +93,7 @@
     </ul>
   {% endif %}
 
-  <label for="{{ form.first_name.id_for_label }}"><i class="fas fa-user"></i> First Name:</label>
+  <label for="{{ form.first_name.id_for_label }}"><i class="fas fa-user"></i>{{form.first_name.label_tag }}</label>
   {{ form.first_name }}
   {% if form.first_name.errors %}
     <ul class="errorlist">
@@ -103,7 +103,7 @@
     </ul>
   {% endif %}
 
-  <label for="{{ form.last_name.id_for_label }}"><i class="fas fa-user"></i> Last Name:</label>
+  <label for="{{ form.last_name.id_for_label }}"><i class="fas fa-user"></i>{{form.last_name.label_tag }}</label>
   {{ form.last_name }}
   {% if form.last_name.errors %}
     <ul class="errorlist">
@@ -113,7 +113,7 @@
     </ul>
   {% endif %}
 
-  <label for="{{ form.date_joined.id_for_label }}"><i class="fas fa-calendar-alt"></i> Date Joined:</label>
+  <label for="{{ form.date_joined.id_for_label }}"><i class="fas fa-calendar-alt"></i>{{form.date_joined.label_tag }}</label>
   {{ form.date_joined }}
   {% if form.date_joined.errors %}
     <ul class="errorlist">
@@ -125,7 +125,7 @@
 
   <!-- Campos adicionales para Student o Teacher -->
   {% if customer_user.user_type == 1 %}
-    <label for="{{ form.picture.id_for_label }}"><i class="fas fa-image"></i> Picture:</label>
+    <label for="{{ form.picture.id_for_label }}"><i class="fas fa-image"></i>{{form.picture.label_tag }}</label>
     {{ form.picture }}
     {% if form.picture.errors %}
       <ul class="errorlist">
@@ -135,7 +135,7 @@
       </ul>
     {% endif %}
 
-    <label for="{{ form.date_birth.id_for_label }}"><i class="fas fa-birthday-cake"></i> Date of Birth:</label>
+    <label for="{{ form.date_birth.id_for_label }}"><i class="fas fa-birthday-cake"></i>{{form.date_birth.label_tag }}</label>
     {{ form.date_birth }}
     {% if form.date_birth.errors %}
       <ul class="errorlist">
@@ -145,7 +145,7 @@
       </ul>
     {% endif %}
 
-    <label for="{{ form.tutor_name.id_for_label }}"><i class="fas fa-user"></i> Tutor Name:</label>
+    <label for="{{ form.tutor_name.id_for_label }}"><i class="fas fa-user"></i>{{form.tutor_name.label_tag }}</label>
     {{ form.tutor_name }}
     {% if form.tutor_name.errors %}
       <ul class="errorlist">
@@ -155,7 +155,7 @@
       </ul>
     {% endif %}
 
-    <label for="{{ form.tutor_number.id_for_label }}"><i class="fas fa-phone"></i> Tutor Number:</label>
+    <label for="{{ form.tutor_number.id_for_label }}"><i class="fas fa-phone"></i>{{ form.tutor_number.label_tag }}</label>
     {{ form.tutor_number }}
     {% if form.tutor_number.errors %}
       <ul class="errorlist">
@@ -166,7 +166,7 @@
     {% endif %}
 
   {% elif customer_user.user_type == 2 %}
-    <label for="{{ form.contact_number.id_for_label }}"><i class="fas fa-phone"></i> Contact Number:</label>
+    <label for="{{ form.contact_number.id_for_label }}"><i class="fas fa-phone"></i>{{form.contact_number.label_tag }}</label>
     {{ form.contact_number }}
     {% if form.contact_number.errors %}
       <ul class="errorlist">

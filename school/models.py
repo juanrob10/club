@@ -136,8 +136,8 @@ class Message(models.Model):
     name = models.CharField(_("name"),max_length=100)
     email = models.EmailField(blank=True, null=True)
     concern = models.CharField(_("concern"),max_length=200)
-    message = models.TextField(_("message"))
-    phone = PhoneNumberField(_("phone"),blank=True, null=True)  # Campo opcional y puede estar vacío
+    message = models.TextField(verbose_name=_("message"))
+    phone = PhoneNumberField(verbose_name=_("phone"),blank=True, null=True)  # Campo opcional y puede estar vacío
 
     def __str__(self):
         return self.concern
