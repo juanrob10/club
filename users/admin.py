@@ -70,9 +70,15 @@ class StudentAdmin(admin.ModelAdmin):
             )
     )
 
+    def has_add_permission(self, request):
+        return False
+
 
 class TeacherAdmin(admin.ModelAdmin):
     form= TeacherForm
+
+    def has_add_permission(self, request):
+        return False
     
 
 admin.site.register(CustomUser, CustomUserAdmin)

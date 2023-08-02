@@ -36,7 +36,6 @@ class CustomUserChangeForm(UserChangeForm):
         model = CustomUser
         fields = "__all__"
     
-   
     def save(self,commit=True):
         instance = super().save(commit=False)
         # Realiza tus acciones personalizadas aquí antes de guardar los datos
@@ -61,7 +60,8 @@ class CustomUserChangeForm(UserChangeForm):
             instance.save()
         return  instance        
 
-          
+
+
 class StudentForm(forms.ModelForm):
     class Meta:
         model=Student
@@ -77,19 +77,17 @@ class StudentForm(forms.ModelForm):
         instance = self.instance
         previous_user = None
         if instance and instance.pk:
-            previous_instance = self._meta.model.objects.get(pk=instance.pk)
-            previous_user = previous_instance.user
-        #existe?
+            previous_user = instance.user
+      
         if previous_user:
             #edit mode
-            #en modo edicion  no permito cambiar el campo user
             if user != previous_user:
                  #Corrijo el campo user en el formulario
                  self.cleaned_data['user'] = previous_user
                  raise ValidationError("Este usuario ya tiene otra relacion de estudiante o profesor")
+        
         else :
             #creation mode
-             #creation mode
             raise ValidationError("No se permite crear una instacia Student")
         
         return cleaned_data  
@@ -108,13 +106,12 @@ class TeacherForm(forms.ModelForm):
         # Obtener el valor anterior del campo "user" desde la instancia del modelo
         instance = self.instance
         previous_user = None
+    
         if instance and instance.pk:
-            previous_instance = self._meta.model.objects.get(pk=instance.pk)
-            previous_user = previous_instance.user
-        #existe?
+            previous_user = instance.user
+    
         if previous_user:
             #edit mode
-            #en modo edicion  no permito cambiar el campo user
             if user != previous_user:
                  self.cleaned_data['user'] = previous_user
                  raise ValidationError("Este usuario ya tiene otra relacion de estudiante o profesor")
