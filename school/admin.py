@@ -55,7 +55,7 @@ class EnrolledPackageAdmin(ImportExportModelAdmin):
      resource_class = EnrolledPackageResource
 
 class SessionAdmin(admin.ModelAdmin):
-    search_fields = ("student__user__first_name","student__user__last_name","student_user_username")
+    search_fields = ("enrolled_package__student__user__first_name","enrolled_package__student__user__last_name","enrolled_package__student__user__username")
     readonly_fields = ['session_duration']
  
 
