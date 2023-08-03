@@ -64,60 +64,57 @@ class CustomUserChangeForm(UserChangeForm):
 
 class StudentForm(forms.ModelForm):
     class Meta:
-        model=Student
+        model= Student
         fields = "__all__"
 
 
-    def clean(self):
-       
-        cleaned_data = super().clean()
-        user = cleaned_data.get('user')  # Obtener el valor del campo "user" del formulario
-       
-        # Obtener el valor anterior del campo "user" desde la instancia del modelo
-        previous_user = None
-        if self.instance and instance.pk:
-            previous_user = instance.user
-      
-        if previous_user:
-            #edit mode
-            if user != previous_user:
-                 raise ValidationError("Este usuario ya tiene otra relacion de estudiante o profesor")
-        
-        else :
-            #creation mode
-            raise ValidationError("No se permite crear una instacia Student")
-        
-        return cleaned_data  
-    
+    def clean_user(self):
+        user = self.cleaned_data.get('user')
+
+        if user is None:
+            raise ValidationError("El campo 'user' es requerido")
+
+        else : 
+            # Verificar si el usuario es un estudiante
+            existing_student = None
+            try:
+                existing_student = Student.objects.get(user=user)
+            except Student.DoesNotExist:
+                raise ValidationError("Este usuario no es un estudiante")
+            
+            if self.instance != existing_student:
+                raise ValidationError("Este usuario ya tiene otra relacion con estudiante")    
+
+        return user
+
+
+   
 class TeacherForm(forms.ModelForm):
     class Meta:
         model=Teacher
         fields = "__all__"
 
+    def clean_user(self):
+        user = self.cleaned_data.get('user')
 
-    def clean(self):
-        #validaciones ya implementadas
-        cleaned_data = super().clean()
-        user = cleaned_data.get('user')  # Obtener el valor del campo "user" del formulario
+        if user is None:
+            raise ValidationError("El campo 'user' es requerido")
 
-        # Obtener el valor anterior del campo "user" desde la instancia del modelo
-        instance = self.instance
-        previous_user = None
-    
-        if instance and instance.pk:
-            previous_user = instance.user
-    
-        if previous_user:
-            #edit mode
-            if user != previous_user:
-                 self.cleaned_data['user'] = previous_user
-                 raise ValidationError("Este usuario ya tiene otra relacion de estudiante o profesor")
-        else:
-            #creation mode
-            raise ValidationError("No se permite crear una instacia Teacher")
+        else : 
+            # Verificar si el usuario es un estudiante
+            existing_teacher = None
+            try:
+                existing_teacher = Teacher.objects.get(user=user)
+            except Teacher.DoesNotExist:
+                raise ValidationError("Este usuario no es un profesor")
+            
+            if self.instance != existing_teacher:
+                raise ValidationError("Este usuario ya tiene un perfil como profesor")    
 
-        return cleaned_data    
+        return user    
 
+
+ 
 
 
 
