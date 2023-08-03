@@ -15,7 +15,7 @@ class CustomUserCreationForm(UserCreationForm):
     class Meta:
         model = CustomUser
         fields = "__all__"
-
+    """
     def save(self,commit=True):
         instance = super().save()        
 
@@ -26,7 +26,7 @@ class CustomUserCreationForm(UserCreationForm):
             teacher = Teacher.objects.create(user=instance)
         
         return  instance       
-
+    """
 class CustomUserChangeForm(UserChangeForm):
     """A form for updating users. Includes all the fields on
     the user, but replaces the password field with admin's
@@ -35,7 +35,7 @@ class CustomUserChangeForm(UserChangeForm):
     class Meta:
         model = CustomUser
         fields = "__all__"
-    
+    """
     def save(self,commit=True):
         instance = super().save(commit=False)
         # Realiza tus acciones personalizadas aquí antes de guardar los datos
@@ -59,7 +59,7 @@ class CustomUserChangeForm(UserChangeForm):
         if commit:
             instance.save()
         return  instance        
-
+    """
 
 
 class StudentForm(forms.ModelForm):
@@ -74,16 +74,13 @@ class StudentForm(forms.ModelForm):
         user = cleaned_data.get('user')  # Obtener el valor del campo "user" del formulario
        
         # Obtener el valor anterior del campo "user" desde la instancia del modelo
-        instance = self.instance
         previous_user = None
-        if instance and instance.pk:
+        if self.instance and instance.pk:
             previous_user = instance.user
       
         if previous_user:
             #edit mode
             if user != previous_user:
-                 #Corrijo el campo user en el formulario
-                 self.cleaned_data['user'] = previous_user
                  raise ValidationError("Este usuario ya tiene otra relacion de estudiante o profesor")
         
         else :

@@ -22,9 +22,6 @@ class CustomPasswordChangeForm(PasswordChangeForm):
         self.fields['new_password2'].widget.attrs['placeholder'] = 'Repetir nueva contraseña'
 
 
-
-
-
 class MessageCreationForm(forms.ModelForm):
     phone = PhoneNumberField(widget=PhoneNumberPrefixWidget(),required=False,label='Teléfono')
     message = forms.CharField(
@@ -71,7 +68,6 @@ class CustomerUserForm(forms.ModelForm):
                 self.fields['tutor_number'] = PhoneNumberField(widget=PhoneNumberPrefixWidget(),required=False,label="Número del Tutor")
             elif hasattr(instance, 'teacher'):
                 self.fields['contact_number'] = PhoneNumberField(widget=PhoneNumberPrefixWidget(),required=False,label="Número de Contacto")
-
 
     def save(self, commit=True):
         instance = super().save(commit=False)
