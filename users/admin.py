@@ -12,7 +12,7 @@ from PIL import Image
 class EnrolledPackageInline(admin.TabularInline):
     model =  EnrolledPackage
     readonly_fields = ['consumed_hours','remaining_hours']
-    exclude = ('consumed_time','remaining_time')
+    exclude = ('consumed_time','remaining_time',)
     classes=["inline-mod"]
     extra=0
 

@@ -103,7 +103,7 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
         verbose_name_plural = _("users")
 
     def __str__(self):
-        return self.first_name
+        return f"{self.first_name} {self.last_name}"
 
     def clean(self):
         super().clean()

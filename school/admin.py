@@ -49,7 +49,7 @@ class EnrolledPackageAdmin(ImportExportModelAdmin):
      search_fields = ("student__user__first_name","student__user__last_name","student__user__username")
      inlines = [SessionInline]
      readonly_fields = ['consumed_hours','remaining_hours']
-     exclude = ('consumed_time','remaining_time')
+     exclude = ('consumed_time','remaining_time',"id",)
   
      
      resource_class = EnrolledPackageResource
@@ -57,6 +57,7 @@ class EnrolledPackageAdmin(ImportExportModelAdmin):
 class SessionAdmin(admin.ModelAdmin):
     search_fields = ("enrolled_package__student__user__first_name","enrolled_package__student__user__last_name","enrolled_package__student__user__username")
     readonly_fields = ['session_duration']
+    exclude = ('id',)
  
 
 admin.site.register(Subject,SubjectAdmin)
