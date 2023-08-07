@@ -49,7 +49,7 @@ class EnrolledPackage(models.Model):
      (True,'Activo'),
      (False,'Finalizado'))
 
-     package_type  = models.ForeignKey('PackageType',verbose_name="package type",on_delete=models.CASCADE,help_text=_('Select the student package type'),null=True)
+     package_type  = models.ForeignKey('PackageType',verbose_name=_("package type"),on_delete=models.CASCADE,help_text=_('Select the student package type'),null=True)
 
      status = models.BooleanField(verbose_name=_("status"),default=True,choices=STATUS_CHOICES,help_text=_("Select the package status"))
 
@@ -136,7 +136,7 @@ class Message(models.Model):
     name = models.CharField(_("name"),max_length=100)
     email = models.EmailField(blank=True, null=True)
     concern = models.CharField(_("concern"),max_length=200)
-    message = models.TextField(verbose_name=_("message"))
+    message = models.TextField(verbose_name=_("note"))
     phone = PhoneNumberField(verbose_name=_("phone"),blank=True, null=True)  # Campo opcional y puede estar vacío
 
     def __str__(self):

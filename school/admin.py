@@ -4,6 +4,8 @@ from import_export import resources, fields
 from import_export.admin import ImportExportModelAdmin
 from django import forms
 
+from django.utils.translation import gettext_lazy as _
+
 class SubjectAdmin(admin.ModelAdmin):
     pass
 
@@ -11,7 +13,7 @@ class PackageTypeAdmin(admin.ModelAdmin):
     pass
 
 class MessageAdmin(admin.ModelAdmin):
-    pass
+    list_display = ("name","concern",)
 
 
 class EnrolledPackageResource(resources.ModelResource):
@@ -46,18 +48,51 @@ class SessionInline(admin.TabularInline):
     extra=0
 
 class EnrolledPackageAdmin(ImportExportModelAdmin):
-     search_fields = ("student__user__first_name","student__user__last_name","student__user__username")
-     inlines = [SessionInline]
-     readonly_fields = ['consumed_hours','remaining_hours']
-     exclude = ('consumed_time','remaining_time',"id",)
+    list_display = ("get_student_name","get_package_type","registration_date",)
+
+    def get_package_type(self,obj):
+              
+        return f"{obj.package_type.hours } Hrs" 
+
+
+    def get_student_name(self, obj):
+        return obj.student.user.get_full_name()
+
+
+    get_package_type.short_description = _("package type")   
+    
+    get_student_name.admin_order_field = 'student__user__first_name'
+    get_student_name.short_description = _("student name")    
+    
+    search_fields = ("student__user__first_name","student__user__last_name","student__user__username")
+    inlines = [SessionInline]
+    readonly_fields = ['consumed_hours','remaining_hours']
+    exclude = ('consumed_time','remaining_time',"id",)
   
      
-     resource_class = EnrolledPackageResource
+    resource_class = EnrolledPackageResource
 
 class SessionAdmin(admin.ModelAdmin):
+
+    list_display = ("get_student_name","get_teacher_name","get_session_duration")
+  
     search_fields = ("enrolled_package__student__user__first_name","enrolled_package__student__user__last_name","enrolled_package__student__user__username")
     readonly_fields = ['session_duration']
     exclude = ('id',)
+
+
+    def get_session_duration(self,obj):
+        return f"{obj.session_duration } Hrs" 
+    
+    def get_student_name(self, obj):
+        return f"{ obj.enrolled_package.student.user.first_name } {obj.enrolled_package.student.user.last_name}"
+    
+    def get_teacher_name(self, obj):
+        return f"{ obj.teacher.user.first_name } {obj.teacher.user.last_name}"
+    
+    get_student_name.short_description = _("student name",)
+    get_teacher_name.short_description = _("teacher name",)
+    get_session_duration.short_description = _("session duration")  
  
 
 admin.site.register(Subject,SubjectAdmin)

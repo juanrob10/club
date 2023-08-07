@@ -4,6 +4,7 @@ from .models import CustomUser, Student, Teacher
 from school.models import  EnrolledPackage
 from .forms import StudentForm,TeacherForm,CustomUserChangeForm,CustomUserCreationForm
 from django.utils.html import escape, mark_safe
+from django.utils.translation import gettext_lazy as _
 
 from .USER_TYPES import STUDENT,TEACHER
 from PIL import Image
@@ -23,7 +24,7 @@ class CustomUserAdmin(UserAdmin):
     form = CustomUserChangeForm
     add_form = CustomUserCreationForm
     #model = CustomUser
-    list_display = ("nombre","is_staff", "is_active","is_superuser")
+    list_display = ("first_name","is_staff", "is_active","is_superuser")
     list_filter = ("username","first_name","last_name", "is_staff", "is_active",)
     fieldsets = (
         (None, {"fields": ("username","first_name",'last_name',"email","user_type", "password",)}),
@@ -52,7 +53,7 @@ class CustomUserAdmin(UserAdmin):
    
 class StudentAdmin(admin.ModelAdmin):
     form = StudentForm
-    list_display = ("user",)
+    list_display = ("get_username","get_name",)
     list_filter = ("user__first_name","user__last_name","user__username")
     search_fields = ("user__first_name","user__last_name","user__username",)
 
@@ -70,12 +71,33 @@ class StudentAdmin(admin.ModelAdmin):
             )
     )
 
+    def get_username(self,obj):
+        return obj.user.username
+
+    def get_name(self,obj):
+        return  obj.user.get_full_name()  
+
+    get_name.short_description = _("name")  
+    get_username.short_description = _("username")    
+
     def has_add_permission(self, request):
         return False
 
 
 class TeacherAdmin(admin.ModelAdmin):
-    form= TeacherForm
+    list_display = ("get_username","get_name",)
+
+    form = TeacherForm
+
+    def get_username(self,obj):
+        return obj.user.username
+
+    def get_name(self,obj):
+        return  obj.user.get_full_name()  
+
+    get_name.short_description = _("name")  
+    get_username.short_description = _("username")      
+
 
     def has_add_permission(self, request):
         return False

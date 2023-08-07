@@ -38,7 +38,9 @@
     transition: background-color 0.3s ease;
     font-size: 18px;
     font-weight: bold;
-    box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+    box-shadow: 5px 8px 5px 0px rgba(0,0,0,0.57);
+-webkit-box-shadow: 5px 8px 5px 0px rgba(0,0,0,0.57);
+-moz-box-shadow: 5px 8px 5px 0px rgba(0,0,0,0.57);
   }
 
   .button:hover {
@@ -81,7 +83,10 @@
     border-radius: 5px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
     max-width: 400px; /* Limita el ancho del modal */
+    border-radius: 10px;
+    max-height: 600px;
   }
+  
 
   .custom-modal-title {
     font-size: 24px;
@@ -168,6 +173,8 @@
     margin-bottom: 15px;
   }
 
+
+ 
   /* Estilos para los mensajes de error en el formulario */
   .custom-modal-form .errorlist {
     color: red;

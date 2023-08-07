@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-07-31 22:57-0700\n"
+"POT-Creation-Date: 2023-08-07 01:49-0700\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,11 +18,11 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: core/settings.py:135
+#: core/settings.py:136
 msgid "Spanish"
 msgstr ""
 
-#: core/settings.py:136
+#: core/settings.py:137
 msgid "English"
 msgstr ""
 
@@ -1246,11 +1246,27 @@ msgstr ""
 msgid "Connect, get help, or contribute"
 msgstr ""
 
+#: school/admin.py:62 school/models.py:32 school/models.py:52
+msgid "package type"
+msgstr ""
+
+#: school/admin.py:65 school/admin.py:93
+msgid "student name"
+msgstr ""
+
+#: school/admin.py:94
+msgid "teacher name"
+msgstr ""
+
+#: school/admin.py:95 school/models.py:113
+msgid "session duration"
+msgstr ""
+
 #: school/apps.py:7
 msgid "school"
 msgstr ""
 
-#: school/models.py:11 school/models.py:136
+#: school/models.py:11 school/models.py:136 users/admin.py:79 users/admin.py:97
 msgid "name"
 msgstr ""
 
@@ -1266,15 +1282,11 @@ msgstr ""
 msgid "hours"
 msgstr ""
 
-#: school/models.py:32
-msgid "package type"
-msgstr ""
-
 #: school/models.py:33
 msgid "package types"
 msgstr ""
 
-#: school/models.py:40 users/USER_TYPES.py:9 users/models.py:140
+#: school/models.py:40 users/USER_TYPES.py:9 users/models.py:139
 msgid "student"
 msgstr ""
 
@@ -1322,7 +1334,7 @@ msgstr ""
 msgid "enrolled package"
 msgstr ""
 
-#: school/models.py:108 users/USER_TYPES.py:10 users/models.py:166
+#: school/models.py:108 users/USER_TYPES.py:10 users/models.py:165
 msgid "teacher"
 msgstr ""
 
@@ -1332,10 +1344,6 @@ msgstr ""
 
 #: school/models.py:112
 msgid "end time"
-msgstr ""
-
-#: school/models.py:113
-msgid "session duration"
 msgstr ""
 
 #: school/models.py:117
@@ -1351,7 +1359,7 @@ msgid "concern"
 msgstr ""
 
 #: school/models.py:139
-msgid "message"
+msgid "note"
 msgstr ""
 
 #: school/models.py:140
@@ -1374,7 +1382,11 @@ msgstr ""
 msgid "Log out"
 msgstr ""
 
-#: users/apps.py:8 users/models.py:103
+#: users/admin.py:80 users/admin.py:98 users/models.py:63
+msgid "username"
+msgstr ""
+
+#: users/apps.py:8 users/models.py:102
 msgid "user"
 msgstr ""
 
@@ -1394,92 +1406,88 @@ msgstr ""
 msgid "The Last name must be set"
 msgstr ""
 
-#: users/models.py:51
+#: users/models.py:50
 msgid "Superuser must have is_staff=True."
 msgstr ""
 
-#: users/models.py:53
+#: users/models.py:52
 msgid "Superuser must have is_superuser=True."
 msgstr ""
 
-#: users/models.py:64
-msgid "username"
-msgstr ""
-
-#: users/models.py:68
+#: users/models.py:67
 msgid "Required. 150 characters or fewer. Letters, digits and @/./+/-/_ only."
 msgstr ""
 
-#: users/models.py:72
+#: users/models.py:71
 msgid "A user with that username already exists."
 msgstr ""
 
-#: users/models.py:75
+#: users/models.py:74
 msgid "email address"
 msgstr ""
 
-#: users/models.py:76
+#: users/models.py:75
 msgid "first name"
 msgstr ""
 
-#: users/models.py:77
+#: users/models.py:76
 msgid "last name"
 msgstr ""
 
-#: users/models.py:78
+#: users/models.py:77
 msgid "user type"
 msgstr ""
 
-#: users/models.py:81
+#: users/models.py:80
 msgid "staff status"
 msgstr ""
 
-#: users/models.py:83
+#: users/models.py:82
 msgid "Designates whether the user can log into this admin site."
 msgstr ""
 
-#: users/models.py:86
+#: users/models.py:85
 msgid "active"
 msgstr ""
 
-#: users/models.py:89
+#: users/models.py:88
 msgid ""
 "Designates whether this user should be treated as active. Unselect this "
 "instead of deleting accounts."
 msgstr ""
 
-#: users/models.py:92
+#: users/models.py:91
 msgid "date joined"
 msgstr ""
 
-#: users/models.py:104
+#: users/models.py:103
 msgid "users"
 msgstr ""
 
-#: users/models.py:133
+#: users/models.py:132
 msgid "picture"
 msgstr ""
 
-#: users/models.py:134
+#: users/models.py:133
 msgid "date birth"
 msgstr ""
 
-#: users/models.py:136
+#: users/models.py:135
 msgid "tutor name"
 msgstr ""
 
-#: users/models.py:137
+#: users/models.py:136
 msgid "tutor number"
 msgstr ""
 
-#: users/models.py:141
+#: users/models.py:140
 msgid "students"
 msgstr ""
 
-#: users/models.py:163
+#: users/models.py:162
 msgid "conact number"
 msgstr ""
 
-#: users/models.py:167
+#: users/models.py:166
 msgid "teachers"
 msgstr ""
