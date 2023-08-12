@@ -1,0 +1,40 @@
+[*]error 1 :
+Cuando  borro un estudiante o un profesor ,el usuario se  queda sin relacion OneToOne, y esto puedo acarrear problemas a la hora de 
+desplegar  el formulario que esta compuesto por  dos modelos (student-user or teacher-user).Y y para ver los campos del estudiante o profesor checo  el campo type_user de mi user para visualizarlos y si se a borrado un estudiante o  profesor en la realacion el type_user manatendra la configuracion anterior  y tratare de acceder a campos no definidos.
+
+[] error 2 :
+    valores negativos en  horas consumidas no se debe permitir(sucede cuando en mi hora de salida pongo una fecha anterior
+    a la hora de entrada)
+    
+    crea la inspeccion en el formulario  de mi session , si mi valor de mi session_duration es negativo arroja un error :
+    clean_session_duration:
+        pass
+
+[] No debo permir iniciar una session con un paquete inscrito inactivo(ya hice la implementacion pero  no funciona):
+
+class SessionForm(forms.ModelForm):
+
+    class Meta:
+        model= Session
+        fields = "__all__"
+    
+    def clean_enrolled_package(self):
+        enrolled_package  = self.cleaned_data.get('enrolled_package ')
+        if enrolled_package.status == False :
+            raise ValidationError("No puedes crear una sesion por que el paquete  al que pertenece esta incativo")
+        return enrolled_package 
+
+[MEJORAS]
+[] MEJORAR LA VISUALIZACION DE LOS DATOS CON CHART.JS en mi django admin
+
+PREVIOS STEPTS : 
+0.- Borrar mi  base de datos y toda migracion
+1.- agregar campo fecha de clase  al el modelo clase
+
+[*] funcionalidad formulario
+2.- Cuando se agrega un clase, necesito que el usuario, ingrese la fecha de clase(year,month,day)( campo 
+tipo : DateField),inmediatamente despues cuando se agregue la fecha de clase, los campos  de :hora comienzo y hora de
+finalizacion se activen( estos campos son de tipo : DateTimeField ) y que  la parte de  :  year,month,day
+de estos campos  se auto generen haciendo match con el campo :fecha de clase , y el resto de cada uno de  los campos (Hora (hr,min,seg))
+funcione  de manera normal(El usuario lo selecciona de manera manual, la mayoria de las veces solo  dando cick
+ al  boton : "now").

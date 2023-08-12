@@ -5,11 +5,25 @@ from users.models import Student,Teacher
 from phonenumber_field.formfields import PhoneNumberField
 from phonenumber_field.widgets import PhoneNumberPrefixWidget
 from django.utils.translation import gettext_lazy as _
+from .models import Session
 
 from .models import Message
-
-
 from django.contrib.auth.forms import PasswordChangeForm
+from django.core.exceptions import ValidationError
+
+
+class SessionForm(forms.ModelForm):
+
+    class Meta:
+        model= Session
+        fields = "__all__"
+    
+    def clean_enrolled_package(self):
+        enrolled_package  = self.cleaned_data.get('enrolled_package')
+
+        if not enrolled_package.status:
+            raise ValidationError("No puedes crear una sesion por que el paquete  al que pertenece esta incativo")
+        return enrolled_package 
 
 
 class CustomPasswordChangeForm(PasswordChangeForm):
@@ -61,6 +75,7 @@ class CustomerUserForm(forms.ModelForm):
         instance = kwargs.get('instance')
     
         if instance:
+    
             if hasattr(instance, 'student'):
                 self.fields['picture'] = forms.ImageField(required=True,label="Imagen")
                 self.fields['date_birth'] = forms.DateField(required=False,widget=forms.DateInput(attrs={'type': 'date', 'format': '%Y-%m-%d'}),label="Fecha de nacimiento")
@@ -97,19 +112,8 @@ class CustomerUserForm(forms.ModelForm):
 
 class LoginForm(AuthenticationForm):
    
-
     username = forms.CharField(label='Usuario', max_length=100, widget=forms.TextInput(attrs={'class': '', 'placeholder': 'Ingrese su nombre de usuario'}))
     password = forms.CharField(label='Contraseña', max_length=100, widget=forms.PasswordInput(attrs={'class': '', 'placeholder': 'Ingrese su contraseña'}))
 
-    def clean_username(self):
-        username = self.cleaned_data['username']
-        # Realiza validaciones personalizadas para el campo 'username'
-        # Puedes agregar lógica adicional aquí y lanzar ValidationError si es necesario
-        return username
 
-    def clean_password(self):
-        password = self.cleaned_data['password']
-        # Realiza validaciones personalizadas para el campo 'password'
-        # Puedes agregar lógica adicional aquí y lanzar ValidationError si es necesario
-        return password
   

@@ -26,8 +26,8 @@ from django.utils.translation import activate
 
 from django.views import View
 
-@method_decorator(login_required, name='dispatch')
-class CustomerUserUpdateView(UpdateView):
+
+class CustomerUserUpdateView(LoginRequiredMixin,UpdateView):
     model = get_user_model()
     form_class = CustomerUserForm
     template_name = 'school/user_app/update_user.html'
@@ -65,8 +65,8 @@ class CustomerUserUpdateView(UpdateView):
 
         return initial
         
-@method_decorator(login_required, name='dispatch')
-class CustomerUserDetailView(DetailView):
+
+class CustomerUserDetailView(LoginRequiredMixin,DetailView):
     model = get_user_model()
     template_name = 'school/user_app/user_detail.html'  # Reemplaza 'customer_user_detail.html' con el nombre de tu plantilla de detalle
     context_object_name = 'customer_user'
@@ -98,7 +98,7 @@ class CustomerUserDetailView(DetailView):
 class MyLoginView(LoginView):
     template_name = 'school/user_app/login.html'
     authentication_form = LoginForm
-    success_url = reverse_lazy('school:user_detail')
+  
     
     def dispatch(self, request, *args, **kwargs):
         if self.request.user.is_authenticated:
@@ -117,8 +117,8 @@ class MyLoginView(LoginView):
 class Index(TemplateView):
 	template_name = 'school/landing_page/index.html'
         
-@method_decorator(login_required, name='dispatch')
-class Inicio(TemplateView):
+
+class Inicio(LoginRequiredMixin,TemplateView):
     template_name = 'school/user_app/inicio.html'
 
 

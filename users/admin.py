@@ -41,14 +41,18 @@ class CustomUserAdmin(UserAdmin):
         ),
     )
 
+
+
     def nombre(self,obj):
         return obj.get_full_name()
 
+ 
+ 
 
     readonly_fields = ['date_joined','last_login']
     search_fields = ("email",)
     ordering = ("email",)
-  
+     
         
    
 class StudentAdmin(admin.ModelAdmin):
@@ -75,13 +79,16 @@ class StudentAdmin(admin.ModelAdmin):
         return obj.user.username
 
     def get_name(self,obj):
-        return  obj.user.get_full_name()  
+        return  obj.user.get_full_name()
+        # Sobrescribe el método has_delete_permission para profesores
+        
+    def has_add_permission(self, request, obj=None):
+        return False  # No permitir la eliminación desde el panel          
 
     get_name.short_description = _("name")  
     get_username.short_description = _("username")    
 
-    def has_add_permission(self, request):
-        return False
+  
 
 
 class TeacherAdmin(admin.ModelAdmin):
@@ -95,12 +102,15 @@ class TeacherAdmin(admin.ModelAdmin):
     def get_name(self,obj):
         return  obj.user.get_full_name()  
 
+    # Sobrescribe el método has_delete_permission para profesores
+    def has_add_permission(self, request, obj=None):
+        return False  # No permitir la eliminación desde el panel    
+
     get_name.short_description = _("name")  
     get_username.short_description = _("username")      
 
 
-    def has_add_permission(self, request):
-        return False
+  
     
 
 admin.site.register(CustomUser, CustomUserAdmin)

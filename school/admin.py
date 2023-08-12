@@ -2,9 +2,11 @@ from django.contrib import admin
 from .models import Subject,PackageType,EnrolledPackage,Session,Message
 from import_export import resources, fields
 from import_export.admin import ImportExportModelAdmin
-from django import forms
+from .forms import SessionForm
+
 
 from django.utils.translation import gettext_lazy as _
+from django.db import models
 
 class SubjectAdmin(admin.ModelAdmin):
     pass
@@ -68,11 +70,13 @@ class EnrolledPackageAdmin(ImportExportModelAdmin):
     inlines = [SessionInline]
     readonly_fields = ['consumed_hours','remaining_hours']
     exclude = ('consumed_time','remaining_time',"id",)
-  
+   
      
     resource_class = EnrolledPackageResource
 
 class SessionAdmin(admin.ModelAdmin):
+
+    add_form = SessionForm
 
     list_display = ("get_student_name","get_teacher_name","get_session_duration")
   
@@ -88,12 +92,26 @@ class SessionAdmin(admin.ModelAdmin):
         return f"{ obj.enrolled_package.student.user.first_name } {obj.enrolled_package.student.user.last_name}"
     
     def get_teacher_name(self, obj):
-        return f"{ obj.teacher.user.first_name } {obj.teacher.user.last_name}"
-    
+        if obj.teacher :
+            return f"{ obj.teacher.user.first_name } {obj.teacher.user.last_name}"
+        else :
+            return  "No teacher"
+
+    def get_form(self, request, obj=None, **kwargs):
+        """
+        Use special form during foo creation
+        """
+        defaults = {}
+        if obj is None:
+            defaults['form'] = self.add_form
+        defaults.update(kwargs)
+        return super().get_form(request, obj, **defaults)
+        
+            
     get_student_name.short_description = _("student name",)
     get_teacher_name.short_description = _("teacher name",)
-    get_session_duration.short_description = _("session duration")  
- 
+    get_session_duration.short_description = _("session duration")
+
 
 admin.site.register(Subject,SubjectAdmin)
 admin.site.register(PackageType,PackageTypeAdmin)

@@ -154,8 +154,6 @@ class Student(models.Model):
                 img.save(self.picture.path)  
                  
 
-        
-
     
 class Teacher(models.Model):
     user = models.OneToOneField(CustomUser,verbose_name=CustomUser._meta.verbose_name,related_name="teacher", on_delete=models.CASCADE, primary_key=True)
