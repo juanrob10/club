@@ -10,7 +10,7 @@ desplegar  el formulario que esta compuesto por  dos modelos (student-user or te
     clean_session_duration:
         pass
 
-[] No debo permir iniciar una session con un paquete inscrito inactivo(ya hice la implementacion pero  no funciona):
+[*] No debo permir iniciar una session con un paquete inscrito inactivo(ya hice la implementacion pero  no funciona):
 
 class SessionForm(forms.ModelForm):
 
@@ -23,6 +23,12 @@ class SessionForm(forms.ModelForm):
         if enrolled_package.status == False :
             raise ValidationError("No puedes crear una sesion por que el paquete  al que pertenece esta incativo")
         return enrolled_package 
+
+
+[]
+[esto solo ocurre cuando intento agregar una instancia principal con una instancia inline]
+    Cuando  estoy creando apenas un paquete inscrito y si al mismo tiempo inicio una session 
+    me da un error ya que  intento agregar una session sin antes haber un paquete inscrio
 
 [MEJORAS]
 [] MEJORAR LA VISUALIZACION DE LOS DATOS CON CHART.JS en mi django admin

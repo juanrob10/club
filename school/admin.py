@@ -49,8 +49,9 @@ class SessionInline(admin.TabularInline):
     classes=["inline-mod"]
     extra=0
 
+
 class EnrolledPackageAdmin(ImportExportModelAdmin):
-    list_display = ("get_student_name","get_package_type","registration_date",)
+    list_display = ("get_student_name","get_package_type","registration_date","status",)
 
     def get_package_type(self,obj):
               

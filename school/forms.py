@@ -10,6 +10,7 @@ from .models import Session
 from .models import Message
 from django.contrib.auth.forms import PasswordChangeForm
 from django.core.exceptions import ValidationError
+from datetime import timedelta
 
 
 class SessionForm(forms.ModelForm):
@@ -24,6 +25,20 @@ class SessionForm(forms.ModelForm):
         if not enrolled_package.status:
             raise ValidationError("No puedes crear una sesion por que el paquete  al que pertenece esta incativo")
         return enrolled_package 
+    
+    def clean(self):
+        cleaned_data = super().clean()
+        
+        start_time = cleaned_data.get('start_time')
+        end_time = cleaned_data.get('end_time')
+        
+        session_duration = end_time - start_time
+        time_0 = timedelta(days=0, hours=0, minutes=0, seconds=0)
+        
+        if session_duration <= time_0 :
+            raise ValidationError("El tiempo de sesion no puede ser  cero o negativo")
+        
+        return  cleaned_data 
 
 
 class CustomPasswordChangeForm(PasswordChangeForm):
