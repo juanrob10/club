@@ -87,6 +87,18 @@ class SessionAdmin(admin.ModelAdmin):
     readonly_fields = ['session_duration']
     exclude = ('id',)
 
+    def get_form(self, request, obj=None, **kwargs):
+
+        if obj:  # Estás en modo de edición
+            if not "enrolled_package" in self.readonly_fields:
+                self.readonly_fields.append("enrolled_package")
+        
+        else :
+            if "enrolled_package" in self.readonly_fields:
+                self.readonly_fields.remove("enrolled_package")
+
+        return    super().get_form(request, obj, **kwargs)
+
 
     def get_session_duration(self,obj):
         return f"{obj.session_duration } Hrs" 

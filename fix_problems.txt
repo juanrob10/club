@@ -31,9 +31,13 @@ class SessionForm(forms.ModelForm):
     me da un error ya que  intento agregar una session sin antes haber un paquete inscrio
 
 
-[]  Cuando a una session ya culminada le cambio el paquete inscrito(cambio de estudiante por un error de capturacion)
+[*]  Cuando a una session ya culminada le cambio el paquete inscrito(cambio de estudiante por un error de capturacion)
     La relacion del paquete anterior con la clase que se cambio se pierde , pero no actualizo las horas consumidas
-    para ese  paquete inscrito   
+    para ese  paquete inscrito
+
+    *cuando estoy en el formulario de edicion pongo el campo enrolled_package como read_only
+    y asi me quito ese problema*
+       
 
 [MEJORAS]
 [] MEJORAR LA VISUALIZACION DE LOS DATOS CON CHART.JS en mi django admin
