@@ -32,12 +32,14 @@ class SessionForm(forms.ModelForm):
         start_time = cleaned_data.get('start_time')
         end_time = cleaned_data.get('end_time')
         
-        session_duration = end_time - start_time
-        time_0 = timedelta(days=0, hours=0, minutes=0, seconds=0)
-        
-        if session_duration <= time_0 :
-            raise ValidationError("El tiempo de sesion no puede ser  cero o negativo")
-        
+        if start_time and end_time:
+
+            session_duration = end_time - start_time
+            time_0 = timedelta(days=0, hours=0, minutes=0, seconds=0)
+            
+            if session_duration <= time_0 :
+                raise ValidationError("El tiempo de sesion no puede ser  cero o negativo")
+            
         return  cleaned_data 
 
 

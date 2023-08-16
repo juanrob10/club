@@ -21,9 +21,10 @@ class EnrolledPackageInline(admin.TabularInline):
 
 
 class CustomUserAdmin(UserAdmin):
-    form = CustomUserChangeForm
-    add_form = CustomUserCreationForm
-    #model = CustomUser
+    #form = CustomUserChangeForm
+    #add_form = CustomUserCreationForm
+    
+    model = CustomUser
     list_display = ("first_name","is_staff", "is_active","is_superuser")
     list_filter = ("username","first_name","last_name", "is_staff", "is_active",)
     fieldsets = (
@@ -46,9 +47,6 @@ class CustomUserAdmin(UserAdmin):
     def nombre(self,obj):
         return obj.get_full_name()
 
- 
- 
-
     readonly_fields = ['date_joined','last_login']
     search_fields = ("email",)
     ordering = ("email",)
@@ -57,6 +55,7 @@ class CustomUserAdmin(UserAdmin):
    
 class StudentAdmin(admin.ModelAdmin):
     form = StudentForm
+    
     list_display = ("get_username","get_name",)
     list_filter = ("user__first_name","user__last_name","user__username")
     search_fields = ("user__first_name","user__last_name","user__username",)

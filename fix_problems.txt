@@ -2,16 +2,17 @@
 Cuando  borro un estudiante o un profesor ,el usuario se  queda sin relacion OneToOne, y esto puedo acarrear problemas a la hora de 
 desplegar  el formulario que esta compuesto por  dos modelos (student-user or teacher-user).Y y para ver los campos del estudiante o profesor checo  el campo type_user de mi user para visualizarlos y si se a borrado un estudiante o  profesor en la realacion el type_user manatendra la configuracion anterior  y tratare de acceder a campos no definidos.
 
-[] error 2 :
+[*] error 2 :
     valores negativos en  horas consumidas no se debe permitir(sucede cuando en mi hora de salida pongo una fecha anterior
     a la hora de entrada)
+    [] necesito hacer que funcione tanbien en formularios inline
+
     
-    crea la inspeccion en el formulario  de mi session , si mi valor de mi session_duration es negativo arroja un error :
-    clean_session_duration:
-        pass
+[*] No debo permir iniciar una session con un paquete inscrito inactivo:
+    [] necesito hacer que funcione tanbien en formularios inline
 
-[*] No debo permir iniciar una session con un paquete inscrito inactivo(ya hice la implementacion pero  no funciona):
 
+how i fixed it:
 class SessionForm(forms.ModelForm):
 
     class Meta:
@@ -25,10 +26,14 @@ class SessionForm(forms.ModelForm):
         return enrolled_package 
 
 
-[]
-[esto solo ocurre cuando intento agregar una instancia principal con una instancia inline]
+[] Cuando intento agregar una instancia principal con una instancia inline 
     Cuando  estoy creando apenas un paquete inscrito y si al mismo tiempo inicio una session 
     me da un error ya que  intento agregar una session sin antes haber un paquete inscrio
+
+
+[]  Cuando a una session ya culminada le cambio el paquete inscrito(cambio de estudiante por un error de capturacion)
+    La relacion del paquete anterior con la clase que se cambio se pierde , pero no actualizo las horas consumidas
+    para ese  paquete inscrito   
 
 [MEJORAS]
 [] MEJORAR LA VISUALIZACION DE LOS DATOS CON CHART.JS en mi django admin

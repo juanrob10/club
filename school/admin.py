@@ -51,6 +51,7 @@ class SessionInline(admin.TabularInline):
 
 
 class EnrolledPackageAdmin(ImportExportModelAdmin):
+    list_per_page = 50
     list_display = ("get_student_name","get_package_type","registration_date","status",)
 
     def get_package_type(self,obj):
@@ -76,8 +77,9 @@ class EnrolledPackageAdmin(ImportExportModelAdmin):
     resource_class = EnrolledPackageResource
 
 class SessionAdmin(admin.ModelAdmin):
+    list_per_page = 100
 
-    add_form = SessionForm
+    form = SessionForm
 
     list_display = ("get_student_name","get_teacher_name","get_session_duration")
   
@@ -97,17 +99,6 @@ class SessionAdmin(admin.ModelAdmin):
             return f"{ obj.teacher.user.first_name } {obj.teacher.user.last_name}"
         else :
             return  "No teacher"
-
-    def get_form(self, request, obj=None, **kwargs):
-        """
-        Use special form during foo creation
-        """
-        defaults = {}
-        if obj is None:
-            defaults['form'] = self.add_form
-        defaults.update(kwargs)
-        return super().get_form(request, obj, **defaults)
-        
             
     get_student_name.short_description = _("student name",)
     get_teacher_name.short_description = _("teacher name",)

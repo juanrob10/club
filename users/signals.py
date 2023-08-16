@@ -6,7 +6,7 @@ from django.contrib.auth.signals import user_logged_in
 
 @receiver(post_save, sender=CustomUser)
 def update_profile(sender, instance,created,**kwargs):
-   
+    
     # Verificar si la instancia es nueva (se está creando) o se está actualizando
     if created:
 

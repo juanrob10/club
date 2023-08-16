@@ -15,18 +15,7 @@ class CustomUserCreationForm(UserCreationForm):
     class Meta:
         model = CustomUser
         fields = "__all__"
-    """
-    def save(self,commit=True):
-        instance = super().save()        
 
-        if instance.user_type == STUDENT:
-           student = Student.objects.create(user=instance)
-                           
-        elif instance.user_type == TEACHER:
-            teacher = Teacher.objects.create(user=instance)
-        
-        return  instance       
-    """
 class CustomUserChangeForm(UserChangeForm):
     """A form for updating users. Includes all the fields on
     the user, but replaces the password field with admin's
@@ -35,31 +24,7 @@ class CustomUserChangeForm(UserChangeForm):
     class Meta:
         model = CustomUser
         fields = "__all__"
-    """
-    def save(self,commit=True):
-        instance = super().save(commit=False)
-        # Realiza tus acciones personalizadas aquí antes de guardar los datos
-        if instance.user_type == STUDENT:
-            if hasattr(instance, 'teacher'):
-                instance.teacher.delete()
-           
-            if not hasattr(instance, 'student'):
-                instance.save()
-                commit=False
-                student = Student.objects.create(user=instance)
-                    
-        elif instance.user_type == TEACHER:
-            if hasattr(instance, 'student'):
-                instance.student.delete()
-           
-            if not hasattr(instance, 'teacher'):
-                instance.save()
-                commit=False
-                teacher = Teacher.objects.create(user=instance)
-        if commit:
-            instance.save()
-        return  instance        
-    """
+  
 
 
 class StudentForm(forms.ModelForm):

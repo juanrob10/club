@@ -7,7 +7,6 @@ from django.core.exceptions import ObjectDoesNotExist
 
 @receiver(post_delete, sender=Session)
 def update_enrolled_package_hours(sender, instance, **kwargs):
-  
     
     enrolled_package = instance.enrolled_package
 
@@ -46,7 +45,7 @@ def update_enrolled_package_hours(sender, instance, **kwargs):
             enrolled_package.status = False
         else:
             enrolled_package.status = True
-
+    
         enrolled_package.save(edit_from_session=True)
     
     except ObjectDoesNotExist:
