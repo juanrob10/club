@@ -3,7 +3,7 @@ from .models import Subject,PackageType,EnrolledPackage,Session,Message
 from import_export import resources, fields
 from import_export.admin import ImportExportModelAdmin
 from .forms import SessionCreateForm,SessionEditForm
-
+from django.utils.html import format_html
 
 from django.utils.translation import gettext_lazy as _
 from django.db import models
@@ -41,8 +41,6 @@ class EnrolledPackageResource(resources.ModelResource):
         model = EnrolledPackage
         exclude = ('id','consumed_time','remaining_time')  
      
-
-
 class SessionInline(admin.TabularInline):
 
     model =  Session
@@ -51,12 +49,20 @@ class SessionInline(admin.TabularInline):
     classes=["inline-mod"]
     extra=0
 
-
-
-
 class EnrolledPackageAdmin(ImportExportModelAdmin):
     list_per_page = 50
-    list_display = ("get_student_name","get_package_type","registration_date","status",)
+    list_display = ("get_student_name","get_package_type","registration_date","status_display",)
+    
+    
+    def status_display(self, obj):
+        if obj.status:
+            return format_html('<span style="color: green;padding-left:10px">&#x2713;</span>')  # Palomita verde
+        else:
+            return format_html('<span style="color: red;padding-left:10px">&#x2718;</span>')  # Cruz roja
+    
+    status_display.short_description = 'Status'
+    status_display.allow_tags = True        
+
 
     def get_package_type(self,obj):
               
