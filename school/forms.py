@@ -5,16 +5,42 @@ from users.models import Student,Teacher
 from phonenumber_field.formfields import PhoneNumberField
 from phonenumber_field.widgets import PhoneNumberPrefixWidget
 from django.utils.translation import gettext_lazy as _
-from .models import Session
+from .models import Session,EnrolledPackage
 
 from .models import Message
 from django.contrib.auth.forms import PasswordChangeForm
 from django.core.exceptions import ValidationError
 from datetime import timedelta
 
+class SessionEditForm(forms.ModelForm):
+    
+    class Meta:
+        model= Session
+        fields = "__all__"
+    
 
-class SessionForm(forms.ModelForm):
+    def clean(self):
+        cleaned_data = super().clean()
+        
+        start_time = cleaned_data.get('start_time')
+        end_time = cleaned_data.get('end_time')
+        
+        if start_time and end_time:
 
+            session_duration = end_time - start_time
+            time_0 = timedelta(days=0, hours=0, minutes=0, seconds=0)
+            
+            if session_duration <= time_0 :
+                raise ValidationError("El tiempo de sesion no puede ser  cero o negativo")
+            
+        return  cleaned_data 
+
+class SessionCreateForm(forms.ModelForm):
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['enrolled_package'].queryset = EnrolledPackage.objects.filter(status=True)
+    
     class Meta:
         model= Session
         fields = "__all__"
@@ -23,7 +49,7 @@ class SessionForm(forms.ModelForm):
         enrolled_package  = self.cleaned_data.get('enrolled_package')
 
         if not enrolled_package.status:
-            raise ValidationError("No puedes crear una sesion por que el paquete  al que pertenece esta incativo")
+            raise ValidationError("No puedes iniciar  una sesion por que el paquete inscrito esta inactivo")
         return enrolled_package 
     
     def clean(self):

@@ -2,7 +2,7 @@ from django.contrib import admin
 from .models import Subject,PackageType,EnrolledPackage,Session,Message
 from import_export import resources, fields
 from import_export.admin import ImportExportModelAdmin
-from .forms import SessionForm
+from .forms import SessionCreateForm,SessionEditForm
 
 
 from django.utils.translation import gettext_lazy as _
@@ -44,10 +44,14 @@ class EnrolledPackageResource(resources.ModelResource):
 
 
 class SessionInline(admin.TabularInline):
+
     model =  Session
+    form = SessionEditForm
     readonly_fields = ['session_duration']
     classes=["inline-mod"]
     extra=0
+
+
 
 
 class EnrolledPackageAdmin(ImportExportModelAdmin):
@@ -79,8 +83,6 @@ class EnrolledPackageAdmin(ImportExportModelAdmin):
 class SessionAdmin(admin.ModelAdmin):
     list_per_page = 100
 
-    form = SessionForm
-
     list_display = ("get_student_name","get_teacher_name","get_session_duration")
   
     search_fields = ("enrolled_package__student__user__first_name","enrolled_package__student__user__last_name","enrolled_package__student__user__username")
@@ -88,16 +90,15 @@ class SessionAdmin(admin.ModelAdmin):
     exclude = ('id',)
 
     def get_form(self, request, obj=None, **kwargs):
-
-        if obj:  # Estás en modo de edición
-            if not "enrolled_package" in self.readonly_fields:
-                self.readonly_fields.append("enrolled_package")
-        
+        defaults = {}
+        if obj is None:
+            defaults['form'] = SessionCreateForm
         else :
-            if "enrolled_package" in self.readonly_fields:
-                self.readonly_fields.remove("enrolled_package")
+            defaults['form'] = SessionEditForm
+               
+        defaults.update(kwargs)
+        return super().get_form(request, obj, **defaults)
 
-        return    super().get_form(request, obj, **kwargs)
 
 
     def get_session_duration(self,obj):
