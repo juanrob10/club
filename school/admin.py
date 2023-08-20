@@ -5,6 +5,8 @@ from import_export.admin import ImportExportModelAdmin
 from .forms import SessionCreateForm,SessionEditForm
 from django.utils.html import format_html
 
+from django.conf import settings
+
 from django.utils.translation import gettext_lazy as _
 from django.db import models
 
@@ -53,7 +55,9 @@ class EnrolledPackageAdmin(ImportExportModelAdmin):
     list_per_page = 50
     list_display = ("get_student_name","get_package_type","registration_date","status_display",)
     
-    
+    class Media:
+        js = (settings.STATIC_URL + 'js/admin_enrolled_package.js',)
+   
     def status_display(self, obj):
         if obj.status:
             return format_html('<span style="color: green;padding-left:10px">&#x2713;</span>')  # Palomita verde
@@ -87,9 +91,9 @@ class EnrolledPackageAdmin(ImportExportModelAdmin):
     resource_class = EnrolledPackageResource
 
 class SessionAdmin(admin.ModelAdmin):
-    list_per_page = 100
+    list_per_page = 10
 
-    list_display = ("get_student_name","get_teacher_name","get_session_duration")
+    list_display = ("get_student_name","get_teacher_name","session_date","get_session_duration")
   
     search_fields = ("enrolled_package__student__user__first_name","enrolled_package__student__user__last_name","enrolled_package__student__user__username")
     readonly_fields = ['session_duration']
@@ -104,8 +108,7 @@ class SessionAdmin(admin.ModelAdmin):
                
         defaults.update(kwargs)
         return super().get_form(request, obj, **defaults)
-
-
+    
 
     def get_session_duration(self,obj):
         return f"{obj.session_duration } Hrs" 

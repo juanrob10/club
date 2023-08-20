@@ -66,6 +66,7 @@ class EnrolledPackage(models.Model):
         ordering = ['student__user__username', ]
 
     def save(self, edit_from_session=False, *args, **kwargs):
+
         if not edit_from_session:
             time_sesion = timedelta(days=0, hours=0, minutes=0, seconds=0)
             for session in self.sessions.all():

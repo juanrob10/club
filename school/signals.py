@@ -3,6 +3,9 @@ from django.dispatch import receiver
 from .models import Session, EnrolledPackage  
 from datetime import timedelta
 from django.core.exceptions import ObjectDoesNotExist
+from .admin import SessionInline
+
+
 
 
 @receiver(post_delete, sender=Session)
