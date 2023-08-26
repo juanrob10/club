@@ -56,10 +56,12 @@ class SessionInline(admin.TabularInline):
     extra=0
 
 class EnrolledPackageAdmin(ImportExportModelAdmin):
+    date_hierarchy = "registration_date"
+    data_query=None
 
     search_fields = ("student__user__first_name","student__user__last_name","student__user__username")
     inlines = [SessionInline]
-    readonly_fields = ['consumed_hours','remaining_hours',"registration_date"]
+    readonly_fields = ['consumed_hours','remaining_hours']
     exclude = ('consumed_time','remaining_time',"id","display_id",)
     list_per_page = 50
     list_display = ("get_student_name","get_package_type","registration_date","status_display",)
@@ -96,6 +98,22 @@ class EnrolledPackageAdmin(ImportExportModelAdmin):
     get_student_name.short_description = _("student name")    
      
     resource_class = EnrolledPackageResource
+    
+    def changelist_view(self, request, extra_context=None):
+        response = super().changelist_view(
+            request,
+            extra_context=extra_context,
+        )
+        try:
+            self.data_query = response.context_data['cl'].queryset
+        except (AttributeError, KeyError):
+            self.data_query = (EnrolledPackage.objects.annotate(date=TruncDay("registration_date"))
+            .values("date")
+            .annotate(y=Count("id"))
+            .order_by("-date")
+          )
+        return response
+
 
     def get_urls(self):
         urls = super().get_urls()
@@ -112,11 +130,11 @@ class EnrolledPackageAdmin(ImportExportModelAdmin):
 
     def chart_data(self):
         chart_data = (
-            EnrolledPackage.objects.annotate(date=TruncDay("registration_date"))
+            self.data_query.annotate(date=TruncDay("registration_date"))
             .values("date")
             .annotate(y=Count("id"))
             .order_by("-date")
-        )
+          )
         return chart_data
 
 
