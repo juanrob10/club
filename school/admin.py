@@ -4,11 +4,17 @@ from import_export import resources, fields
 from import_export.admin import ImportExportModelAdmin
 from .forms import SessionCreateForm,SessionEditForm
 from django.utils.html import format_html
-
 from django.conf import settings
-
 from django.utils.translation import gettext_lazy as _
 from django.db import models
+from django.core.serializers.json import DjangoJSONEncoder
+from django.db.models import Count
+from django.db.models.functions import TruncDay,TruncDate, ExtractDay
+import json
+from django.http import JsonResponse
+from django.urls import path
+
+
 
 class SubjectAdmin(admin.ModelAdmin):
     pass
@@ -38,11 +44,9 @@ class EnrolledPackageResource(resources.ModelResource):
         else:
             return 'Finalizado'
         
-
-    class Meta:
         model = EnrolledPackage
-        exclude = ('id','consumed_time','remaining_time')  
-     
+        exclude = ('id','consumed_time','remaining_time')
+
 class SessionInline(admin.TabularInline):
 
     model =  Session
@@ -52,8 +56,17 @@ class SessionInline(admin.TabularInline):
     extra=0
 
 class EnrolledPackageAdmin(ImportExportModelAdmin):
+
+    search_fields = ("student__user__first_name","student__user__last_name","student__user__username")
+    inlines = [SessionInline]
+    readonly_fields = ['consumed_hours','remaining_hours',"registration_date"]
+    exclude = ('consumed_time','remaining_time',"id","display_id",)
     list_per_page = 50
     list_display = ("get_student_name","get_package_type","registration_date","status_display",)
+    list_filter = ("status",)
+    ordering = ("-registration_date",)   
+
+    change_list_template = 'admin/package_summary_change_list.html'  
     
     class Media:
         js = (settings.STATIC_URL + 'js/admin_enrolled_package.js',)
@@ -81,20 +94,37 @@ class EnrolledPackageAdmin(ImportExportModelAdmin):
     
     get_student_name.admin_order_field = 'student__user__first_name'
     get_student_name.short_description = _("student name")    
-    
-    search_fields = ("student__user__first_name","student__user__last_name","student__user__username")
-    inlines = [SessionInline]
-    readonly_fields = ['consumed_hours','remaining_hours']
-    exclude = ('consumed_time','remaining_time',"id",)
-   
      
     resource_class = EnrolledPackageResource
+
+    def get_urls(self):
+        urls = super().get_urls()
+        extra_urls = [
+            path("chart_data/", self.admin_site.admin_view(self.chart_data_endpoint))
+        ]
+        # NOTE! Our custom urls have to go before the default urls, because they
+        # default ones match anything.
+        return extra_urls + urls
+    
+    def chart_data_endpoint(self,request):
+        chart_data = self.chart_data()
+        return JsonResponse(list(chart_data), safe=False)
+
+    def chart_data(self):
+        chart_data = (
+            EnrolledPackage.objects.annotate(date=TruncDay("registration_date"))
+            .values("date")
+            .annotate(y=Count("id"))
+            .order_by("-date")
+        )
+        return chart_data
+
 
 class SessionAdmin(admin.ModelAdmin):
     list_per_page = 10
 
     list_display = ("get_student_name","get_teacher_name","session_date","get_session_duration")
-  
+    list_filter = ("teacher",)
     search_fields = ("enrolled_package__student__user__first_name","enrolled_package__student__user__last_name","enrolled_package__student__user__username")
     readonly_fields = ['session_duration']
     exclude = ('id',)

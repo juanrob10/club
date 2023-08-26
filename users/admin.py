@@ -10,6 +10,8 @@ from .USER_TYPES import STUDENT,TEACHER
 from PIL import Image
 
 
+
+
 class EnrolledPackageInline(admin.TabularInline):
     model =  EnrolledPackage
     readonly_fields = ['consumed_hours','remaining_hours']
@@ -85,7 +87,7 @@ class StudentAdmin(admin.ModelAdmin):
         return False  # No permitir la eliminación desde el panel          
 
     get_name.short_description = _("name")  
-    get_username.short_description = _("username")    
+    get_username.short_description = _("username")
 
   
 

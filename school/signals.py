@@ -12,12 +12,10 @@ from .admin import SessionInline
 def update_enrolled_package_hours(sender, instance, **kwargs):
     
     enrolled_package = instance.enrolled_package
-
     try:
         package_type = enrolled_package.package_type
 
         time_sesion = timedelta(days=0, hours=0, minutes=0, seconds=0)
-    
     
         for session in enrolled_package.sessions.all():
             if session.session_duration is not None:

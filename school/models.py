@@ -29,6 +29,7 @@ class Subject(models.Model):
 
 
 class PackageType(models.Model):
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, help_text="Package Type ID")
     hours = models.IntegerField(_("hours"), default=1)
 
     class Meta:
@@ -39,11 +40,14 @@ class PackageType(models.Model):
         return f'{self.hours} Horas'
 
 
+
 class EnrolledPackage(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, help_text="Package ID")
+    display_id = models.IntegerField(default=1)
+
     student = models.ForeignKey(Student, verbose_name=_("student"), related_name="enrolled_packages",
                                 on_delete=models.CASCADE)
-    registration_date = models.DateField(_("registration date"),default=timezone.now)
+    registration_date = models.DateTimeField(_("registration date"),default=timezone.now)
     consumed_hours = models.CharField(_("consumed hours"), max_length=100, default="00:00:00 Hrs")
     remaining_hours = models.CharField(_("remaining hours"), max_length=100, default="00:00:00 Hrs")
 
@@ -65,13 +69,33 @@ class EnrolledPackage(models.Model):
         verbose_name_plural = _("Enrolled Packages")
         ordering = ['student__user__username', ]
 
+   
     def save(self, edit_from_session=False, *args, **kwargs):
-
+        
         if not edit_from_session:
             time_sesion = timedelta(days=0, hours=0, minutes=0, seconds=0)
-            for session in self.sessions.all():
-                if session.session_duration is not None:
-                    time_sesion += session.session_duration
+            '''
+               cuanado agrego mi id( uuid default en el formulario) cuando creo la instancia  enrollPackage mi :
+               in self.sessions.all() es:  []
+               por eso me permite  intentar iterarla.
+               So no lo hiciera no existira esa clave antes antes de guardarla y me tiraria
+               un error (no hay clave primaria)
+
+
+               me quito ese problema solo agregando :  self._state.adding
+            '''
+            if  self._state.adding:
+                # Get the maximum display_id value from the database
+                last_id =  EnrolledPackage.objects.all().aggregate(largest=models.Max('display_id'))['largest']
+
+                # aggregate can return None! Check it first.
+                # If it isn't none, just use the last ID specified (which should be the greatest) and add one to it
+                if last_id is not None:
+                    self.display_id = last_id + 1       
+            else :
+                   for session in self.sessions.all():
+                    if session.session_duration is not None:
+                        time_sesion += session.session_duration
 
             self.consumed_time = time_sesion
             m, s = divmod(time_sesion.total_seconds(), 60)
@@ -108,9 +132,13 @@ class EnrolledPackage(models.Model):
         else:
             return f"{self.student.user.first_name}  {self.student.user.last_name} (Status: FINALIZADO)"
 
+
+
 def default_end_time():
     end_time = timezone.now() + timedelta(hours=1)
     return end_time
+
+
 
 class Session(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, help_text="session ID")
