@@ -127,12 +127,13 @@ class EnrolledPackage(models.Model):
         super().save(*args, **kwargs)
 
     def __str__(self):
-        if self.status:
-            return f"{self.student.user.first_name}  {self.student.user.last_name} (Status: ACTIVO)"
-        else:
-            return f"{self.student.user.first_name}  {self.student.user.last_name} (Status: FINALIZADO)"
+        return f"{self.student.user.first_name}  {self.student.user.last_name}"
 
-
+class EnrolledPackageSummary(EnrolledPackage):
+    class Meta:
+        proxy = True
+        verbose_name = _('EnrolledPackage Summary')
+        verbose_name_plural = _('EnrolledPackage Summary')
 
 def default_end_time():
     end_time = timezone.now() + timedelta(hours=1)
@@ -147,8 +148,6 @@ class Session(models.Model):
     teacher = models.ForeignKey(Teacher, related_name="sessions", verbose_name=_("teacher"), on_delete=models.SET_NULL,
                                 null=True)
     subjects = models.ManyToManyField(Subject, verbose_name=_("subjects"), related_name='sessions')
-
-    session_date = models.DateField(verbose_name=_("session date"), default=timezone.now)
 
     start_time = models.DateTimeField(verbose_name=_("start time"), null=False, blank=False,default=timezone.now)
     end_time = models.DateTimeField(null=True, verbose_name=_("end time"), blank=True,default=default_end_time)

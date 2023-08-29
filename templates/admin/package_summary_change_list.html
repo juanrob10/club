@@ -7,17 +7,35 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.bundle.min.js"></script>
     <script>
       document.addEventListener('DOMContentLoaded', () => {
-      const ctx = document.getElementById('myChart').getContext('2d');
 
-      // Render the chart
+      const ctx = document.getElementById('myChart').getContext('2d');
+      const ctx2 = document.getElementById("myChart2").getContext("2d");
+      //Render the chart 2
+      var chart2 = new Chart(ctx2, {
+         type: 'doughnut',
+         data: {
+            labels: ["activos", "inactivos"],
+            datasets: [{
+            label: "Paquetes inscritos",
+            data: [0,0],
+            backgroundColor: ['green','red'],
+            hoverOffset: 5
+            }],
+         },
+         options: {
+            responsive: true,
+         },
+      });
+
+      // Render the chart 1
       const chart = new Chart(ctx, {
         type: 'bar',
         data: {
           datasets: [
             {
-              label: 'Nuevos Paquetes',
+              label: 'Paquetes Inscritos',
               data: [],
-              backgroundColor: 'rgba(220,20,20,0.5)',
+              backgroundColor: 'rgba(38,75,93,0.5)',
             },
           ],
         },
@@ -46,31 +64,39 @@
           },
         },
       });
-
-      // Reload chart data from the backend on button click
-      const btn = document.querySelector('#reload');
-          btn.addEventListener('click', async() => {
       
-            const res = await fetch("/admin/school/enrolledpackage/chart_data/");
+      // Reload chart data from the backend on button click
+      const btn_load = document.querySelector('#reload');
+          btn_load.addEventListener('click', async() => {
+      
+            const res = await fetch("/admin/school/enrolledpackagesummary/chart_data/");
             const json = await res.json();
-            json.forEach((d) => {
+  
+            json.paquetes_date.forEach((d) => {
               d.x = new Date(d.date);
             });
       
-            chart.data.datasets[0].data = json;
+            chart.data.datasets[0].data = json.paquetes_date;
             chart.update();
+
+            chart2.data.datasets[0].data[0] = json.no_paquetes.active_count;
+            chart2.data.datasets[0].data[1] = json.no_paquetes.inactive_count;
+            chart2.update()
+
           });
 
-    });
+        });
     </script>
 {% endblock %}
-
 {% block content %}
-<!-- Render our chart -->
-<div style="width: 100%;">
-  <canvas style="margin-bottom: 30px; width: 60%; height: 50%;" id="myChart"></canvas>
-</div>
-<button id="reload" style="margin: 1rem 0;padding: 5px;">Cargar los datos en un Grafico</button>
-<!-- Render the rest of the ChangeList view -->
-{{ block.super }}
+      <!-- Render our chart -->
+      <div style="width: 100%;">
+        <canvas style="margin-bottom: 30px; width: 60%; height: 50%;" id="myChart"></canvas>
+      </div>
+      <div style="width: 100%;">
+        <canvas id="myChart2" aria-label="chart" style="width:50%; height: 50%;"></canvas>
+      </div>
+      <button id="reload" style="margin: 1rem 0;padding: 5px;">Cargar los datos</button>
+      {{ block.super }}
+      <!-- Render the rest of the ChangeList view -->
 {% endblock %}

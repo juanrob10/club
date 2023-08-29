@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2023-08-18 15:29-0700\n"
+"POT-Creation-Date: 2023-08-27 00:18-0700\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,11 +18,11 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: core/settings.py:137
+#: core/settings.py:141
 msgid "Spanish"
 msgstr ""
 
-#: core/settings.py:138
+#: core/settings.py:142
 msgid "English"
 msgstr ""
 
@@ -39,7 +39,7 @@ msgid "Welcome to the homework club management portal"
 msgstr "Bienvenido al portal de gestión del club de tareas"
 
 #: env/lib/python3.10/site-packages/django/contrib/messages/apps.py:15
-#: school/models.py:152
+#: messages/models.py:17 school/models.py:183
 msgid "Messages"
 msgstr "Mensajes"
 
@@ -1246,19 +1246,54 @@ msgstr ""
 msgid "Connect, get help, or contribute"
 msgstr ""
 
-#: school/admin.py:76 school/models.py:35 school/models.py:57
+#: messages/apps.py:7
+#, fuzzy
+#| msgid "Messages"
+msgid "messages"
+msgstr "Mensaje"
+
+#: messages/models.py:6 school/models.py:14 school/models.py:172
+#: users/admin.py:87 users/admin.py:108
+msgid "name"
+msgstr "nombre"
+
+#: messages/models.py:8 school/models.py:174
+msgid "concern"
+msgstr "asunto"
+
+#: messages/models.py:9 school/models.py:175
+msgid "note"
+msgstr "Nota"
+
+#: messages/models.py:10 school/models.py:176
+msgid "phone"
+msgstr "teléfono "
+
+#: messages/models.py:16 school/models.py:182
+#, fuzzy
+#| msgid "Messages"
+msgid "Message"
+msgstr "Mensaje"
+
+#: school/admin.py:92 school/models.py:36 school/models.py:61
 msgid "package type"
 msgstr "tipo de paquete"
 
-#: school/admin.py:79 school/admin.py:122
+#: school/admin.py:95 school/admin.py:199
 msgid "student name"
 msgstr "estudiante"
 
-#: school/admin.py:123
+#: school/admin.py:198
+#, fuzzy
+#| msgid "Session"
+msgid "date session"
+msgstr "Clase"
+
+#: school/admin.py:200
 msgid "teacher name"
 msgstr "profesor"
 
-#: school/admin.py:124 school/models.py:126
+#: school/admin.py:201 school/models.py:157
 msgid "session duration"
 msgstr "duración de la sesión"
 
@@ -1266,126 +1301,103 @@ msgstr "duración de la sesión"
 msgid "school"
 msgstr "escuela"
 
-#: school/models.py:14 school/models.py:141 users/admin.py:87
-#: users/admin.py:108
-msgid "name"
-msgstr "nombre"
-
 #: school/models.py:18
 msgid "subject"
 msgstr "materia"
 
-#: school/models.py:19 school/models.py:120
+#: school/models.py:19 school/models.py:153
 msgid "subjects"
 msgstr "materias"
 
-#: school/models.py:32
+#: school/models.py:33
 msgid "hours"
 msgstr "horas"
 
-#: school/models.py:36
+#: school/models.py:37
 msgid "package types"
 msgstr "tipos de paquetes"
 
-#: school/models.py:44 users/USER_TYPES.py:9 users/models.py:139
+#: school/models.py:48 users/USER_TYPES.py:9 users/models.py:139
 msgid "student"
 msgstr "estudiante"
 
-#: school/models.py:46
+#: school/models.py:50
 msgid "registration date"
 msgstr "fecha de registro"
 
-#: school/models.py:47
+#: school/models.py:51
 msgid "consumed hours"
 msgstr "horas consumidas"
 
-#: school/models.py:48
+#: school/models.py:52
 msgid "remaining hours"
 msgstr "horas restantes"
 
-#: school/models.py:50
+#: school/models.py:54
 msgid "consumed time"
 msgstr ""
 
-#: school/models.py:51
+#: school/models.py:55
 msgid "remaining_time"
 msgstr ""
 
-#: school/models.py:58
+#: school/models.py:62
 msgid "Select the student package type"
 msgstr ""
 
-#: school/models.py:60
+#: school/models.py:64
 msgid "status"
 msgstr ""
 
-#: school/models.py:61
+#: school/models.py:65
 msgid "Select the package status"
 msgstr ""
 
-#: school/models.py:64
+#: school/models.py:68
 msgid "Enrolled Package"
 msgstr "Paquete Inscrito"
 
-#: school/models.py:65
+#: school/models.py:69
 msgid "Enrolled Packages"
 msgstr "Paquetes Inscritos"
 
-#: school/models.py:116
+#: school/models.py:138 school/models.py:139
+msgid "EnrolledPackage Summary"
+msgstr "Paquetes Inscritos Resumen"
+
+#: school/models.py:149
 msgid "enrolled package"
 msgstr "Paquete Inscrito"
 
-#: school/models.py:118 users/USER_TYPES.py:10 users/models.py:163
+#: school/models.py:151 users/USER_TYPES.py:10 users/models.py:163
 msgid "teacher"
 msgstr "profesor"
 
-#: school/models.py:122
-msgid "session date"
-msgstr "fecha de la sesión"
-
-#: school/models.py:124
+#: school/models.py:155
 msgid "start time"
 msgstr "hora de comienzo"
 
-#: school/models.py:125
+#: school/models.py:156
 msgid "end time"
 msgstr "hora de finalización"
 
-#: school/models.py:129
+#: school/models.py:160
 msgid "Session"
 msgstr "Clase"
 
-#: school/models.py:130
+#: school/models.py:161
 msgid "Sessions"
 msgstr ""
 
-#: school/models.py:143
-msgid "concern"
-msgstr "asunto"
-
-#: school/models.py:144
-msgid "note"
-msgstr "Nota"
-
-#: school/models.py:145
-msgid "phone"
-msgstr "teléfono "
-
-#: school/models.py:151
-#, fuzzy
-#| msgid "Messages"
-msgid "Message"
-msgstr "Mensaje"
-
-#: templates/admin/base_site.html:32
+#: templates/admin/base_site.html:31
 msgid "Documentation"
 msgstr ""
 
-#: templates/admin/base_site.html:36
+#: templates/admin/base_site.html:35
 msgid "Change password"
 msgstr ""
 
-#: templates/admin/base_site.html:38
+#: templates/admin/base_site.html:37
 msgid "Log out"
 msgstr ""
 
@@ -1499,10 +1511,8 @@ msgstr "número de contacto"
 msgid "teachers"
 msgstr "profesores"
 
-#, fuzzy
-#~| msgid "Messages"
-#~ msgid "message"
-#~ msgstr "Mensaje"
+#~ msgid "session date"
+#~ msgstr "fecha de la sesión"
 
 #, fuzzy
 #~| msgid "phone"

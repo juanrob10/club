@@ -43,9 +43,6 @@ class CustomUserAdmin(UserAdmin):
             )}
         ),
     )
-
-
-
     def nombre(self,obj):
         return obj.get_full_name()
 
@@ -58,7 +55,7 @@ class CustomUserAdmin(UserAdmin):
 class StudentAdmin(admin.ModelAdmin):
     form = StudentForm
     
-    list_display = ("get_username","get_name",)
+    list_display = ("get_name","get_username")
     list_filter = ("user__first_name","user__last_name","user__username")
     search_fields = ("user__first_name","user__last_name","user__username",)
 
@@ -81,6 +78,7 @@ class StudentAdmin(admin.ModelAdmin):
 
     def get_name(self,obj):
         return  obj.user.get_full_name()
+  
         # Sobrescribe el método has_delete_permission para profesores
         
     def has_add_permission(self, request, obj=None):
@@ -109,10 +107,6 @@ class TeacherAdmin(admin.ModelAdmin):
 
     get_name.short_description = _("name")  
     get_username.short_description = _("username")      
-
-
-  
-    
 
 admin.site.register(CustomUser, CustomUserAdmin)
 admin.site.register(Student,StudentAdmin)

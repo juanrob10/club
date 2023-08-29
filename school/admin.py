@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Subject,PackageType,EnrolledPackage,Session,Message
+from .models import Subject,PackageType,EnrolledPackage,Session,Message,EnrolledPackageSummary
 from import_export import resources, fields
 from import_export.admin import ImportExportModelAdmin
 from .forms import SessionCreateForm,SessionEditForm
@@ -13,6 +13,8 @@ from django.db.models.functions import TruncDay,TruncDate, ExtractDay
 import json
 from django.http import JsonResponse
 from django.urls import path
+
+from django.db.models import Count, Case, When, IntegerField, F
 
 
 
@@ -57,19 +59,17 @@ class SessionInline(admin.TabularInline):
 
 class EnrolledPackageAdmin(ImportExportModelAdmin):
     date_hierarchy = "registration_date"
-    data_query=None
+
 
     search_fields = ("student__user__first_name","student__user__last_name","student__user__username")
     inlines = [SessionInline]
     readonly_fields = ['consumed_hours','remaining_hours']
     exclude = ('consumed_time','remaining_time',"id","display_id",)
-    list_per_page = 50
+    list_per_page = 10
     list_display = ("get_student_name","get_package_type","registration_date","status_display",)
     list_filter = ("status",)
     ordering = ("-registration_date",)   
 
-    change_list_template = 'admin/package_summary_change_list.html'  
-    
     class Media:
         js = (settings.STATIC_URL + 'js/admin_enrolled_package.js',)
    
@@ -80,13 +80,12 @@ class EnrolledPackageAdmin(ImportExportModelAdmin):
             return format_html('<span style="color: red;padding-left:10px">&#x2718;</span>')  # Cruz roja
     
     status_display.short_description = 'Status'
+    status_display.admin_order_field = 'status'
+
     status_display.allow_tags = True        
 
-
-    def get_package_type(self,obj):
-              
+    def get_package_type(self,obj):   
         return f"{obj.package_type.hours } Hrs" 
-
 
     def get_student_name(self, obj):
         return obj.student.user.get_full_name()
@@ -99,6 +98,18 @@ class EnrolledPackageAdmin(ImportExportModelAdmin):
      
     resource_class = EnrolledPackageResource
     
+   
+
+
+@admin.register(EnrolledPackageSummary)
+class EnrolledPackageSummaryAdmin(admin.ModelAdmin):
+    list_filter = ("status",)
+    list_per_page = 10
+    data_query=None
+
+    change_list_template = 'admin/package_summary_change_list.html' 
+    date_hierarchy = "registration_date"
+
     def changelist_view(self, request, extra_context=None):
         response = super().changelist_view(
             request,
@@ -112,6 +123,7 @@ class EnrolledPackageAdmin(ImportExportModelAdmin):
             .annotate(y=Count("id"))
             .order_by("-date")
           )
+
         return response
 
 
@@ -126,22 +138,46 @@ class EnrolledPackageAdmin(ImportExportModelAdmin):
     
     def chart_data_endpoint(self,request):
         chart_data = self.chart_data()
-        return JsonResponse(list(chart_data), safe=False)
+        return JsonResponse(chart_data, safe=False)
 
     def chart_data(self):
-        chart_data = (
+        paquetes_date = (
             self.data_query.annotate(date=TruncDay("registration_date"))
             .values("date")
             .annotate(y=Count("id"))
             .order_by("-date")
           )
+   
+        no_paquetes = self.data_query.aggregate(
+            active_count=Count(
+                Case(When(status=True, then=1), output_field=IntegerField())
+            ),
+            inactive_count=Count(
+                Case(When(status=False, then=1), output_field=IntegerField())
+            ),
+        )
+
+        chart_data = {
+            'paquetes_date': list(paquetes_date),
+            'no_paquetes': no_paquetes,
+        }
         return chart_data
 
+    def has_add_permission(self, request, obj=None):
+        return False  # No permitir la eliminación desde el panel          
+    
+    def has_delete_permission(self, request, obj=None):
+        return False  # No permitir la eliminación desde el panel          
+   
 
+       
+    def has_change_permission(self, request, obj=None):
+        return False  # No permitir la eliminación desde el panel          
+   
 class SessionAdmin(admin.ModelAdmin):
     list_per_page = 10
 
-    list_display = ("get_student_name","get_teacher_name","session_date","get_session_duration")
+    list_display = ("get_student_name","get_teacher_name","get_session_duration","get_date")
     list_filter = ("teacher",)
     search_fields = ("enrolled_package__student__user__first_name","enrolled_package__student__user__last_name","enrolled_package__student__user__username")
     readonly_fields = ['session_duration']
@@ -157,6 +193,8 @@ class SessionAdmin(admin.ModelAdmin):
         defaults.update(kwargs)
         return super().get_form(request, obj, **defaults)
     
+    def get_date(self,obj):
+        return obj.start_time.strftime("%m/%d/%Y")
 
     def get_session_duration(self,obj):
         return f"{obj.session_duration } Hrs" 
@@ -169,10 +207,14 @@ class SessionAdmin(admin.ModelAdmin):
             return f"{ obj.teacher.user.first_name } {obj.teacher.user.last_name}"
         else :
             return  "No teacher"
-            
+
+    get_date.short_description = _("date session")        
     get_student_name.short_description = _("student name",)
     get_teacher_name.short_description = _("teacher name",)
     get_session_duration.short_description = _("session duration")
+
+    get_student_name.admin_order_field = "enrolled_package__student__user__first_name" 
+    get_date.admin_order_field = "start_time"
 
 
 admin.site.register(Subject,SubjectAdmin)
