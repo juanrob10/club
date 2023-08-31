@@ -16,8 +16,6 @@ from django.urls import path
 
 from django.db.models import Count, Case, When, IntegerField, F
 
-
-
 class SubjectAdmin(admin.ModelAdmin):
     pass
 
@@ -104,8 +102,8 @@ class EnrolledPackageAdmin(ImportExportModelAdmin):
 @admin.register(EnrolledPackageSummary)
 class EnrolledPackageSummaryAdmin(admin.ModelAdmin):
     list_filter = ("status",)
-    list_per_page = 10
-    data_query=None
+    list_display=()
+    data_query = None
 
     change_list_template = 'admin/package_summary_change_list.html' 
     date_hierarchy = "registration_date"
@@ -117,6 +115,7 @@ class EnrolledPackageSummaryAdmin(admin.ModelAdmin):
         )
         try:
             self.data_query = response.context_data['cl'].queryset
+
         except (AttributeError, KeyError):
             self.data_query = (EnrolledPackage.objects.annotate(date=TruncDay("registration_date"))
             .values("date")
@@ -125,7 +124,6 @@ class EnrolledPackageSummaryAdmin(admin.ModelAdmin):
           )
 
         return response
-
 
     def get_urls(self):
         urls = super().get_urls()
