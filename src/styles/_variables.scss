@@ -1,0 +1,144 @@
+/** ----------- FONTS ------------ **/
+$font-family-base: 'Lato', sans-serif;
+$headings-font-family: 'Orbitron', sans-serif;
+$custom-subheadings-font-family: 'Oxygen', sans-serif;
+
+/** --------- Z-INDEXES ---------- **/
+$z-index-section-inactive: 10;
+$z-index-section-active: 20;
+$z-index-sidebar: 100;
+$z-index-nav-tabs: 200;
+$z-index-modal: 9000;
+$z-index-notifications: 9500;
+$z-index-dialogs: 9800;
+$z-index-activity-spinner: 9990;
+$z-index-animated-cursor: 9995;
+$z-index-loader: 9999;
+
+/** ----------- LAYOUT ----------- **/
+$sidebar-width: 280px;
+$sidebar-shrink-width: 120px;
+$nav-tabs-height: 55px;
+$nav-tabs-chrome-offset: 20px;
+$standard-border-radius: 10px;
+$layout-blocks-spacing: 0.5rem;
+$sidebar-min-breakpoint: md;
+
+/** ----------- COLORS ----------- **/
+
+/** COLORS - overriding bootstrap colors **/
+$primary: #AD20FF;  // Violeta neón mejorado
+$secondary: #6c757d;
+$dark: #111;
+$light: #EEE;
+
+/** COLORS - static **/
+$loader-background-color: #111111;
+
+:root {
+    --mobile-layout-breakpoint: md;
+}
+
+/** COLORS - dark theme palette **/
+:root {
+    --theme-main: #111111;
+    --theme-main-2: #1A1A1A;
+    --theme-main-3: #1C1C1C;
+    --theme-main-4: #1f1f1f;
+
+    --theme-secondary: #EEEEEE;
+    --theme-secondary-2: #D1D1D1;
+    --theme-secondary-3: #bbbbbb;
+    --theme-secondary-4: #9f9f9f;
+
+    --theme-soft: #212121;
+    --theme-soft-2: #252525;
+    --theme-soft-3: #292929;
+
+    --theme-highlight: #C74AFF;    // Violeta neón óptimo
+    --theme-highlight-2: #D675FF;  // 20% más claro
+    --theme-highlight-3: #E5A1FF;  // 40% más claro
+
+    --theme-dark: #101010;
+    --theme-dark-opacity: rgba(16, 16, 16, 0.2);
+    --theme-muted: #6c757d;
+    --theme-white: #EEE;
+
+    --theme-bg: url('/images/css/bg-dark.png');
+    --theme-bg-color: #1C1C1C;
+    --theme-section-background: #1A1A1A;
+    --theme-section-background-opacity: rgba(26, 26, 26, 0.86);
+    --theme-tag-color: #181818;
+    --theme-box-shadow: 0 0 12px rgba(173, 32, 255, 0.25);
+
+    --theme-nav-background: #1A1A1A;
+    --theme-nav-background-disabled: #181818;
+    --theme-nav-secondary: #EEEEEE;
+    --theme-nav-light: #1f2022;
+    --theme-nav-highlight: #BD3AFF; // Violeta brillante
+    --theme-nav-selected: #2A0D40;  // Fondo violeta oscuro
+
+    --theme-scrollbar-track: #111111;
+    --theme-scrollbar-thumb: #AD20FF;
+    --theme-chart-borders: #F0D6FF;
+
+    --theme-danger: #FF2D7A; // Rosa neón
+}
+
+/** COLORS - light theme palette **/
+[data-theme="light"] {
+    --theme-main: #F5E5FF;  // Lavanda claro
+    --theme-main-2: #EBD0FF;
+    --theme-main-3: #E1BBFF;
+    --theme-main-4: #D7A6FF;
+
+    --theme-secondary: #3E1F5E;  // Violeta oscuro
+    --theme-secondary-2: #4E2F6E;
+    --theme-secondary-3: #5E3F7E;
+    --theme-secondary-4: #6E4F8E;
+
+    --theme-soft: #FAF0FF;
+    --theme-soft-2: #F5E0FF;
+    --theme-soft-3: #F0D0FF;
+
+    --theme-dark: #FFFFFF;
+    --theme-dark-opacity: rgba(255, 255, 255, 0.2);
+    --theme-muted: #8E6E9E;
+    --theme-white: #ffffff;
+
+    --theme-highlight: #9D00FF;   // Violeta eléctrico
+    --theme-highlight-2: #B740FF;
+    --theme-highlight-3: #D180FF;
+
+    --theme-bg: url('/images/css/bg-violet.png');
+    --theme-bg-color: #EBD0FF;
+    --theme-section-background: #FFFFFF;
+    --theme-section-background-opacity: rgba(255, 255, 255, 0.9);
+    --theme-tag-color: #E1BBFF;
+    --theme-box-shadow: 0 0 8px rgba(157, 0, 255, 0.15);
+
+    --theme-nav-background: #FFFFFF;
+    --theme-nav-background-disabled: #FAF0FF;
+    --theme-nav-secondary: #4E2F6E;
+    --theme-nav-light: rgba(245, 229, 255, 0.5);
+    --theme-nav-highlight: #E1BBFF;
+    --theme-nav-selected: #9D00FF;
+
+    --theme-scrollbar-track: #EBD0FF;
+    --theme-scrollbar-thumb: #BD3AFF;
+    --theme-chart-borders: #E1BBFF;
+
+    --theme-danger: #FFD6E5;
+}
+
+.bg-dark {
+    background-image: url('/images/css/bg-dark.png');
+    background-size: cover;
+    background-position: center;
+}
+
+.bg-violet {
+    background-image: url('/images/css/bg-violet.png');
+    background-size: cover;
+    background-position: center;
+}
