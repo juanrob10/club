@@ -5,7 +5,7 @@
 
     "preloader": {
         "enabled": true,
-        "title": "React <b>Portfolio</b>",
+        "title": "El<b>Jardín del Edém</b>",
         "subtitle": "by Robert G."
     },
 
@@ -13,7 +13,7 @@
         "name": "Roberto G.",
         "stylizedName": "<strong>Roberto **G.**</strong>",
         "logoUrl": "images/svg/logo.svg",
-        "profilePictureUrl": "images/pictures/avatar.jpg",
+        "profilePictureUrl": "images/svg/avatar.svg",
 
         "locales": {
             "en": {"role": "Math Teacher"},
