@@ -121,7 +121,7 @@ function Preloader({children}) {
 
                         <div className={`loader-content-info ${contentInfoClass}`}>
                             <div className={`title-wrapper`}>
-                                <img src={utils.resolvePath(`/images/svg/logo.svg`)}
+                                <img src={utils.resolvePath(`/images/svg/avatar.svg`)}
                                      onLoad={() => {setDidLoadLogo(true)}}
                                      className={`logo me-3`}
                                      alt={`logo`}/>
