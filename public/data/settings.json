@@ -5,21 +5,21 @@
 
     "preloader": {
         "enabled": true,
-        "title": "El<b>Jardín del Edén</b>",
-        "subtitle": "by Robert G."
+        "title": "El<b>Club de Tareas</b>",
+        "subtitle": "by Judith Garcia."
     },
 
     "profile": {
-        "name": "Roberto G.",
-        "stylizedName": "<strong>Roberto **G.**</strong>",
+        "name": "Club de Tareas",
+        "stylizedName": "<strong>Club de **Tareas**</strong>",
         "logoUrl": "images/svg/logo.svg",
         "profilePictureUrl": "images/svg/avatar.svg",
 
         "locales": {
-            "en": {"role": "Math Teacher"},
-            "es": {"role": "Profesor de Matemáticas"},
-            "fr": {"role": "professeur de mathématiques"},
-            "ko": {"role": "수학 교사"}
+            "en": {"role": "Centro de Estudio"},
+            "es": {"role": "Study Center"},
+            "fr": {"role": "Centre d'Études"},
+            "ko": {"role": "스터디 센터"}
         }
     },
 
