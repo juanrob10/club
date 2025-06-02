@@ -5,7 +5,7 @@
 
     "preloader": {
         "enabled": true,
-        "title": "El<b>Club de Tareas</b>",
+        "title": "El <b>Club de Tareas</b>",
         "subtitle": "by Judith Garcia."
     },
 
@@ -16,8 +16,8 @@
         "profilePictureUrl": "images/svg/avatar.svg",
 
         "locales": {
-            "en": {"role": "Centro de Estudio"},
-            "es": {"role": "Study Center"},
+            "en": {"role": "Study Center"},
+            "es": {"role": "Centro de Estudio"},
             "fr": {"role": "Centre d'Études"},
             "ko": {"role": "스터디 센터"}
         }
