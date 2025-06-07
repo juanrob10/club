@@ -2,7 +2,7 @@
     "locales": {
         "en": {
             "title": "Welcome!",
-            "title_menu": "About me",
+            "title_menu": "About us",
             "title_long_prefix": "Welcome...",
             "title_long": "El**Club de Tareas**"
         },
@@ -11,7 +11,7 @@
             "title": "¡Bienvenidos!",
             "title_menu": "Acerca",
             "title_long_prefix": "Bienvenidos...",
-            "title_long": "El**Club de Tareas**"
+            "title_long": "El **Club de Tareas**"
         },
 
         "fr": {
@@ -250,8 +250,8 @@
                 "format": "grid"
             },
             "locales": {
-                "en": {"title": "Personal **interests**"},
-                "es": { "title": "Intereses **personales**" },
+                "en": {"title": "Our **Mission**"},
+                "es": { "title": "Nuestra **Misión**" },
                 "fr": { "title": "Intérêts **personnels** " },
                 "ko": { "title": "개인 **관심사**" }
             },
