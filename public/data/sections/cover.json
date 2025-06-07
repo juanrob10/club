@@ -3,15 +3,15 @@
         "en": {
             "title": "Welcome!",
             "title_menu": "About me",
-            "title_long_prefix": "Hello...",
-            "title_long": "I'm **Roberto García**"
+            "title_long_prefix": "Welcome...",
+            "title_long": "El**Club de Tareas**"
         },
 
         "es": {
-            "title": "¡Saludos!",
-            "title_menu": "Sobre mí",
-            "title_long_prefix": "Hola...",
-            "title_long": "Soy **Roberto García**"
+            "title": "¡Bienvenidos!",
+            "title_menu": "Acerca",
+            "title_long_prefix": "Bienvenidos...",
+            "title_long": "El**Club de Tareas**"
         },
 
         "fr": {
